@@ -1,0 +1,14 @@
+class Settings:
+    BLACK = (0, 0, 0)
+    WHITE = (255, 255, 255)
+    GREEN = (0, 255, 0)
+    RED = (255, 0, 0)
+
+    SQUARE_MARGIN = 5
+
+    WINDOW_WIDTH = 1280
+    WINDOW_HEIGHT = 720
+    WINDOW_SIZE = [WINDOW_WIDTH, WINDOW_HEIGHT]
+
+    SQUARE_WIDTH = 100
+    SQUARE_HEIGHT = 100
