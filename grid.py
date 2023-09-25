@@ -76,6 +76,7 @@ class Grid:
                 if self.grid[row][column] and self.grid[row][column].belongs_to == Player.ATTACKER:
                     color = Settings.RED
                 elif self.grid[row][column] and self.grid[row][column].belongs_to == Player.DEFENDER:
+                    color = Settings.GREEN
                 pygame.draw.rect(display, color,[x,y, Settings.SQUARE_WIDTH, Settings.SQUARE_HEIGHT])
                 if self.grid[row][column]:
                     name = self.font.render(self.grid[row][column].type.value, True, (0, 0, 0))
