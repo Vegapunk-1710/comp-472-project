@@ -4,6 +4,7 @@ from settings import Settings
 from grid import Grid
 
 pygame.init()
+pygame.font.init()
 grid = Grid()
 display = pygame.display.set_mode(Settings.WINDOW_SIZE)
 pygame.display.set_caption("Wargame 💣")

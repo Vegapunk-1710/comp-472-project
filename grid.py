@@ -22,14 +22,7 @@ class Grid:
                 else:
                     self.grid[row][column] = None
 
-        for row in range(len(self.grid)):
-            for column in range(len(self.grid[row])):
-                if self.grid[row][column]:
-                    print(self.grid[row][column].type.name, self.grid[row][column].place)
-
-        pygame.font.init()
         self.font = pygame.font.SysFont('Comic Sans MS', 12)
-        text_surface = self.font.render('Some Text', True, (0, 0, 0))
 
 
 
@@ -67,7 +60,6 @@ class Grid:
 
 
     def render(self, display):
-
         for row in range(5):
             for column in range(5):
                 x =  (Settings.SQUARE_MARGIN + Settings.SQUARE_WIDTH) * column + Settings.SQUARE_MARGIN
