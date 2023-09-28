@@ -67,9 +67,18 @@ class Grid:
                 if self.grid[row][column]:
                     name = self.font.render(self.grid[row][column].type.value, True, (0, 0, 0))
                     display.blit(name, (x+30,y+30))
-                    health = self.font.render(str(self.grid[row][column].health), True, (0, 0, 0))
-                    display.blit(health, (x + 45, y + 15))
+                    if color == Settings.ORANGE:
+                        damage =self.game.selected_unit.DAMAGE_CHART
+                        attacker_type = self.game.selected_unit.type.value
+                        defender_type = self.grid[row][column].type.value
+                        damage = str(damage[attacker_type][defender_type])
+                        health = self.font.render(str(self.grid[row][column].health) + " - " + damage, True, (0, 0, 0))
+                        display.blit(health, (x + 45, y + 15))
+                    else:
+                        health = self.font.render(str(self.grid[row][column].health), True, (0, 0, 0))
+                        display.blit(health, (x + 45, y + 15))
 
         if self.game.is_selected:
             selection = self.font.render("Selected Unit : " + str(self.game.selected_unit), True, (255, 255, 255))
             display.blit(selection, (500,700))
+

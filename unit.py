@@ -13,43 +13,7 @@ class Player(Enum):
     DEFENDER = "Defender"
 
 
-DAMAGE_CHART = {
-        Type.AI.value : {
-            Type.AI.value : 3,
-            Type.VIRUS.value: 3,
-            Type.TECH.value: 3,
-            Type.FIREWALL.value: 1,
-            Type.PROGRAM.value: 3,
-        },
-        Type.VIRUS.value: {
-            Type.AI.value: 9,
-            Type.VIRUS.value: 1,
-            Type.TECH.value: 6,
-            Type.FIREWALL.value: 1,
-            Type.PROGRAM.value: 6,
-        },
-        Type.TECH.value: {
-            Type.AI.value: 1,
-            Type.VIRUS.value: 6,
-            Type.TECH.value: 1,
-            Type.FIREWALL.value: 1,
-            Type.PROGRAM.value: 1,
-        },
-        Type.FIREWALL.value: {
-            Type.AI.value: 1,
-            Type.VIRUS.value: 1,
-            Type.TECH.value: 1,
-            Type.FIREWALL.value: 1,
-            Type.PROGRAM.value: 1,
-        },
-        Type.PROGRAM.value: {
-            Type.AI.value: 3,
-            Type.VIRUS.value: 3,
-            Type.TECH.value: 3,
-            Type.FIREWALL.value: 1,
-            Type.PROGRAM.value: 3,
-        },
-    }
+
 
 class Unit:
 
@@ -61,6 +25,43 @@ class Unit:
         self.location = location  # position on the grid limited to [4,4]
         self.game = game # the game's engine
         self.in_combat = False
+        self.DAMAGE_CHART = {
+            Type.AI.value : {
+                Type.AI.value : 3,
+                Type.VIRUS.value: 3,
+                Type.TECH.value: 3,
+                Type.FIREWALL.value: 1,
+                Type.PROGRAM.value: 3,
+            },
+            Type.VIRUS.value: {
+                Type.AI.value: 9,
+                Type.VIRUS.value: 1,
+                Type.TECH.value: 6,
+                Type.FIREWALL.value: 1,
+                Type.PROGRAM.value: 6,
+            },
+            Type.TECH.value: {
+                Type.AI.value: 1,
+                Type.VIRUS.value: 6,
+                Type.TECH.value: 1,
+                Type.FIREWALL.value: 1,
+                Type.PROGRAM.value: 1,
+            },
+            Type.FIREWALL.value: {
+                Type.AI.value: 1,
+                Type.VIRUS.value: 1,
+                Type.TECH.value: 1,
+                Type.FIREWALL.value: 1,
+                Type.PROGRAM.value: 1,
+            },
+            Type.PROGRAM.value: {
+                Type.AI.value: 3,
+                Type.VIRUS.value: 3,
+                Type.TECH.value: 3,
+                Type.FIREWALL.value: 1,
+                Type.PROGRAM.value: 3,
+            },
+        }
 
     def movement(self, adjacents):
         self.in_combat = self.check_combat(adjacents)
@@ -107,8 +108,8 @@ class Unit:
         for highlight in self.game.highlighted_attacks:
             if row == highlight[0] and column == highlight[1]:
                 other = self.game.map.grid[row][column]
-                other.health -= DAMAGE_CHART[self.type.value][other.type.value]
-                self.health -= DAMAGE_CHART[other.type.value][self.type.value]
+                other.health -= self.DAMAGE_CHART[self.type.value][other.type.value]
+                self.health -= self.DAMAGE_CHART[other.type.value][self.type.value]
                 if other.health <= 0:
                     self.game.map.grid[row][column] = None
                     del other
