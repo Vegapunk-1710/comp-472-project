@@ -1,11 +1,14 @@
 import pygame
 
+from helper import decode_string_from_init_map_coordinate
 from settings import Settings
 from unit import Player, Type, Unit
 
 
 class Grid:
     def __init__(self, game):
+        self.game = game
+
         self.grid = [
             ["dA9","dT9","dF9","",""],
             ["dT9","dP9","","",""],
@@ -18,39 +21,12 @@ class Grid:
             for column in range(len(self.grid[row])):
                 if self.grid[row][column] != "":
                     place = [row, column]
-                    belongs_to, type, health = self.decode(self.grid[row][column])
-                    self.grid[row][column] = Unit(health, type, belongs_to, place, self)
+                    belongs_to, type, health = decode_string_from_init_map_coordinate(self.grid[row][column])
+                    self.grid[row][column] = Unit(health, type, belongs_to, place, self.game)
                 else:
                     self.grid[row][column] = None
 
-        self.game= game
         self.font = pygame.font.SysFont('Comic Sans MS', 16)
-
-    def decode(self, str):
-        belongs_to = str[0]
-        type = str[1]
-        health = int(str[2])
-
-        if belongs_to == "d":
-            belongs_to = Player.DEFENDER
-        else:
-            belongs_to = Player.ATTACKER
-
-        if type == "A":
-            type = Type.AI
-        elif type == "V":
-            type = Type.VIRUS
-        elif type == "T":
-            type = Type.TECH
-        elif type == "P":
-            type = Type.PROGRAM
-        elif type == "F":
-            type = Type.FIREWALL
-
-        return belongs_to, type, health
-
-    def encode_location(self):
-        pass
 
     def check_adjacents(self, row, column):
         adj = {}
@@ -66,10 +42,6 @@ class Grid:
             if column + 1 <= len(self.grid[row]) - 1:
                 adj["right"] = self.grid[row][column + 1] if self.grid[row][column + 1] != None else [row, column + 1]
         return unit, adj
-
-
-    def update(self):
-        pass
 
     def render(self, display):
         for row in range(5):
@@ -96,5 +68,5 @@ class Grid:
                     display.blit(health, (x + 45, y + 15))
 
         if self.game.is_selected:
-            selection = self.font.render("Selected : " + str(self.game.selected_unit), True, (255, 255, 255))
+            selection = self.font.render("Selected Unit : " + str(self.game.selected_unit), True, (255, 255, 255))
             display.blit(selection, (500,700))

@@ -13,12 +13,12 @@ class Player(Enum):
     DEFENDER = "Defender"
 
 class Unit:
-    def __init__(self, health: int, type: Type, belongs_to: Player, location: [int], map):
+    def __init__(self, health: int, type: Type, belongs_to: Player, location: [int], game):
         self.health = health
         self.type = type  # AI, Virus, Tech, Program, Firewall
         self.belongs_to = belongs_to  # Attacker or Defender
         self.location = location  # position on the grid limited to [4,4]
-        self.map = map # the game's map
+        self.game = game # the game's engine
         self.in_combat = False
 
     def movement(self, adjacents):
@@ -26,13 +26,13 @@ class Unit:
         if (self.type == Type.AI or self.type == Type.FIREWALL or self.type == Type.PROGRAM) and self.in_combat:
             return []
         elif (self.type == Type.AI or self.type == Type.FIREWALL or self.type == Type.PROGRAM) and self.belongs_to == Player.ATTACKER:
-            return self.move(adjacents, up=True, left=True)
+            return self.moves(adjacents, up=True, left=True)
         elif (self.type == Type.AI or self.type == Type.FIREWALL or self.type == Type.PROGRAM) and self.belongs_to == Player.DEFENDER:
-            return self.move(adjacents, down=True, right=True)
+            return self.moves(adjacents, down=True, right=True)
         else:
-            return self.move(adjacents, left=True, up=True, right=True, down=True)
+            return self.moves(adjacents, left=True, up=True, right=True, down=True)
 
-    def move(self, adjacents, left=False, up=False, right=False, down=False):
+    def moves(self, adjacents, left=False, up=False, right=False, down=False):
         moves = []
         if left and isinstance(adjacents["left"], list):
             moves.append(adjacents["left"])
@@ -44,6 +44,13 @@ class Unit:
             moves.append(adjacents["down"])
         return moves
 
+    def move(self, row, column):
+        for highlight in self.game.highlighted_moves:
+            if row == highlight[0] and column == highlight[1]:
+                old_row, old_column = self.location
+                self.game.map.grid[row][column] = self
+                self.location = [row, column]
+                self.game.map.grid[old_row][old_column] = None
 
     def attack(self, other):
         if self.type == Type.AI:
@@ -79,11 +86,11 @@ class Unit:
                     return True
         return False
 
-    def update(self):
-        pass
-
     def __str__(self):
-        return "Unit : " + str(self.type) + ", " + str(self.belongs_to) + ", " + str(self.location)
+        start = ord('A')
+        letter = chr(start + self.location[0])
+        location =  str(letter) + str(self.location[1] + 1)
+        return str(self.belongs_to.value) + "'s " +  str(self.type.value) + " @ " + str(location) + ", In combat ? : " +str(self.in_combat)
 
 
 

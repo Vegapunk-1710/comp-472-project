@@ -16,38 +16,8 @@ class Game:
         self.is_selected = False
         self.selected_unit = None
         self.highlighted_moves = []
-
-    def update(self):
-        pos = pygame.mouse.get_pos()
-        column = pos[0] // (Settings.SQUARE_WIDTH + Settings.SQUARE_MARGIN)
-        row = pos[1] // (Settings.SQUARE_HEIGHT + Settings.SQUARE_MARGIN)
-        if not self.is_selected:
-            self.get_unit(row, column)
-        else:
-            self.set_unit(row, column)
-
-    def get_unit(self, row, column):
-        try:
-            self.selected_unit, adjacents = self.map.check_adjacents(row, column)
-            self.highlighted_moves = self.selected_unit.movement(adjacents)
-            self.is_selected = True
-        except Exception as e:
-            print(e)
-
-    def set_unit(self, row, column):
-        try:
-            for highlight in self.highlighted_moves:
-                if row == highlight[0] and column == highlight[1]:
-                    old_row, old_column = self.selected_unit.location
-                    self.map.grid[row][column] = self.selected_unit
-                    self.selected_unit.location = [row, column]
-                    self.map.grid[old_row][old_column] = None
-        except Exception as e:
-            print(e)
-        finally:
-            self.is_selected = False
-            self.selected_unit = None
-            self.highlighted_moves = []
+        self.highlighted_attacks = []
+        self.highlighted_repairs = []
 
     def run(self):
         while not self.is_done:
@@ -56,7 +26,7 @@ class Game:
                     self.is_done = True
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    self.update()
+                    self.handle_click()
 
             self.display.fill(Settings.BLACK)
             self.map.render(self.display)
@@ -65,5 +35,39 @@ class Game:
             pygame.display.flip()
 
         pygame.quit()
+
+    def handle_click(self):
+        pos = pygame.mouse.get_pos()
+        column = pos[0] // (Settings.SQUARE_WIDTH + Settings.SQUARE_MARGIN)
+        row = pos[1] // (Settings.SQUARE_HEIGHT + Settings.SQUARE_MARGIN)
+        if not self.is_selected:
+            self.get_unit(row, column)
+        else:
+            self.set_unit(row, column)
+
+    def get_unit(self, from_row, from_column):
+        try:
+            if from_row <= 4 and from_column <= 4 and self.map.grid[from_row][from_column] != None:
+                self.selected_unit, adjacents = self.map.check_adjacents(from_row, from_column)
+                self.highlighted_moves = self.selected_unit.movement(adjacents)
+                # self.highlighted_attacks = self.selected_unit.attack(adjacents)
+                # self.highlighted_repairs = self.selected_unit.repair(adjacents)
+                self.is_selected = True
+        except Exception as e:
+            print(e)
+
+    def set_unit(self, to_row, to_column):
+        try:
+            self.selected_unit.move(to_row, to_column)
+            # self.selected_unit.attack(to_row, to_column)
+            # self.selected_unit.repair(to_row, to_column)
+        except Exception as e:
+            print(e)
+        finally:
+            self.is_selected = False
+            self.selected_unit = None
+            self.highlighted_moves = []
+            self.highlighted_attacks = []
+            self.highlighted_repairs = []
 
 Game().run()
