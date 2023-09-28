@@ -58,6 +58,9 @@ class Grid:
                 for highlight in self.game.highlighted_moves:
                     if row == highlight[0] and column == highlight[1]:
                         color = Settings.GREEN
+                for highlight in self.game.highlighted_attacks:
+                    if row == highlight[0] and column == highlight[1]:
+                        color = Settings.ORANGE
 
                 pygame.draw.rect(display, color,[x,y, Settings.SQUARE_WIDTH, Settings.SQUARE_HEIGHT])
 

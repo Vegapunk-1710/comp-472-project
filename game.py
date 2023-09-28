@@ -50,7 +50,7 @@ class Game:
             if from_row <= 4 and from_column <= 4 and self.map.grid[from_row][from_column] != None:
                 self.selected_unit, adjacents = self.map.check_adjacents(from_row, from_column)
                 self.highlighted_moves = self.selected_unit.movement(adjacents)
-                # self.highlighted_attacks = self.selected_unit.attack(adjacents)
+                self.highlighted_attacks = self.selected_unit.attacking(adjacents)
                 # self.highlighted_repairs = self.selected_unit.repair(adjacents)
                 self.is_selected = True
         except Exception as e:
@@ -59,7 +59,7 @@ class Game:
     def set_unit(self, to_row, to_column):
         try:
             self.selected_unit.move(to_row, to_column)
-            # self.selected_unit.attack(to_row, to_column)
+            self.selected_unit.attack(to_row, to_column)
             # self.selected_unit.repair(to_row, to_column)
         except Exception as e:
             print(e)

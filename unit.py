@@ -12,7 +12,48 @@ class Player(Enum):
     ATTACKER = "Attacker"
     DEFENDER = "Defender"
 
+
+DAMAGE_CHART = {
+        Type.AI.value : {
+            Type.AI.value : 3,
+            Type.VIRUS.value: 3,
+            Type.TECH.value: 3,
+            Type.FIREWALL.value: 1,
+            Type.PROGRAM.value: 3,
+        },
+        Type.VIRUS.value: {
+            Type.AI.value: 9,
+            Type.VIRUS.value: 1,
+            Type.TECH.value: 6,
+            Type.FIREWALL.value: 1,
+            Type.PROGRAM.value: 6,
+        },
+        Type.TECH.value: {
+            Type.AI.value: 1,
+            Type.VIRUS.value: 6,
+            Type.TECH.value: 1,
+            Type.FIREWALL.value: 1,
+            Type.PROGRAM.value: 1,
+        },
+        Type.FIREWALL.value: {
+            Type.AI.value: 1,
+            Type.VIRUS.value: 1,
+            Type.TECH.value: 1,
+            Type.FIREWALL.value: 1,
+            Type.PROGRAM.value: 1,
+        },
+        Type.PROGRAM.value: {
+            Type.AI.value: 3,
+            Type.VIRUS.value: 3,
+            Type.TECH.value: 3,
+            Type.FIREWALL.value: 1,
+            Type.PROGRAM.value: 3,
+        },
+    }
+
 class Unit:
+
+
     def __init__(self, health: int, type: Type, belongs_to: Player, location: [int], game):
         self.health = health
         self.type = type  # AI, Virus, Tech, Program, Firewall
@@ -52,17 +93,30 @@ class Unit:
                 self.location = [row, column]
                 self.game.map.grid[old_row][old_column] = None
 
-    def attack(self, other):
-        if self.type == Type.AI:
-            pass
-        elif self.type == Type.VIRUS:
-            pass
-        elif self.type == Type.TECH:
-            pass
-        elif self.type == Type.PROGRAM:
-            pass
-        elif self.type == Type.FIREWALL:
-            pass
+
+    def attacking(self, adjacents):
+        attacks = []
+        self.in_combat = self.check_combat(adjacents)
+        if self.in_combat:
+            for key, value  in adjacents.items():
+                if isinstance(value, Unit) and value.belongs_to != self.belongs_to:
+                    attacks.append(value.location)
+        return attacks
+
+    def attack(self, row, column):
+        for highlight in self.game.highlighted_attacks:
+            if row == highlight[0] and column == highlight[1]:
+                other = self.game.map.grid[row][column]
+                other.health -= DAMAGE_CHART[self.type.value][other.type.value]
+                self.health -= DAMAGE_CHART[other.type.value][self.type.value]
+                if other.health <= 0:
+                    self.game.map.grid[row][column] = None
+                    del other
+                if self.health <= 0:
+                    self.game.map.grid[self.location[0]][self.location[1]] = None
+                    del self
+
+
 
     def repair(self, other):
         if self.type == Type.AI:
