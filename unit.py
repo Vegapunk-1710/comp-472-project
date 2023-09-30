@@ -13,11 +13,7 @@ class Player(Enum):
     DEFENDER = "Defender"
 
 
-
-
 class Unit:
-
-
     def __init__(self, health: int, type: Type, belongs_to: Player, location: [int], game):
         self.health = health
         self.type = type  # AI, Virus, Tech, Program, Firewall
@@ -118,7 +114,6 @@ class Unit:
                     del self
 
 
-
     def repair(self, other):
         if self.type == Type.AI:
             pass
@@ -144,7 +139,7 @@ class Unit:
     def __str__(self):
         start = ord('A')
         letter = chr(start + self.location[0])
-        location =  str(letter) + str(self.location[1] + 1)
+        location =  str(letter) + str(self.location[1])
         return str(self.belongs_to.value) + "'s " +  str(self.type.value) + " @ " + str(location) + ", In combat ? : " +str(self.in_combat)
 
 

@@ -80,5 +80,5 @@ class Grid:
 
         if self.game.is_selected:
             selection = self.font.render("Selected Unit : " + str(self.game.selected_unit), True, (255, 255, 255))
-            display.blit(selection, (500,700))
+            display.blit(selection, (500,690))
 
