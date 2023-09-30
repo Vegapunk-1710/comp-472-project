@@ -196,7 +196,7 @@ class Unit:
         start = ord('A')
         letter = chr(start + self.location[0])
         location =  str(letter) + str(self.location[1])
-        return str(self.belongs_to.value) + "'s " +  str(self.type.value) + " @ " + str(location) + ", In combat ? : " +str(self.in_combat)
+        return str(self.belongs_to.value) + "'s " +  str(self.type.value) + " @ " + str(location) + ", In Combat ? : " +str(self.in_combat)
 
 
 

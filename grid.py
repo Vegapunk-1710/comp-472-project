@@ -27,6 +27,7 @@ class Grid:
                     self.grid[row][column] = None
 
         self.font = pygame.font.SysFont('Comic Sans MS', 16)
+        self.end_font = pygame.font.SysFont('Comic Sans MS', 32)
 
     def check_adjacents(self, row, column):
         adj = {}
@@ -56,6 +57,25 @@ class Grid:
             if row + 1 <= len(self.grid[row]) - 1 and column + 1 <= len(self.grid[row]) - 1:
                 diag["right_down"] = self.grid[row + 1][column + 1] if self.grid[row + 1][column + 1] != None else [row + 1, column + 1]
         return diag
+
+    def check_game_over(self):
+        is_attacker_ai_alive = False
+        is_defender_ai_alive = False
+        for row in range(len(self.grid)):
+            for column in range(len(self.grid[row])):
+                if isinstance(self.grid[row][column], Unit):
+                    if self.grid[row][column].belongs_to.value == "Attacker" and self.grid[row][column].type.value == "AI":
+                        is_attacker_ai_alive = True
+                    if self.grid[row][column].belongs_to.value == "Defender" and self.grid[row][column].type.value == "AI":
+                        is_defender_ai_alive = True
+        if not is_attacker_ai_alive:
+            return True, "Defender Won!"
+        elif not is_defender_ai_alive:
+            return True, "Attacker Won!"
+        elif self.game.counter == self.game.MAX_COUNTER:
+            return True, "Game Over! Defender Won By Default!"
+        else :
+            return False, ""
 
 
     def render(self, display):
@@ -106,11 +126,53 @@ class Grid:
         return str(self.grid[row_impacted][column_impacted].health) + sign + impact
 
     def render_game_related_text(self, display):
+        end = self.end_font.render(self.game.end_message, True, (255, 255, 255))
+        display.blit(end, (690, 360))
+        counter = self.font.render("Round : " + str(self.game.counter), True, (255, 255, 255))
+        display.blit(counter, (680, 10))
+        turn = self.font.render("Turn : ", True, (255, 255, 255))
+        display.blit(turn, (680, 30))
+        if self.game.turn == 0:
+            turn = self.font.render("Attacker", True, (255, 0, 0))
+            display.blit(turn, (730, 30))
+        else:
+            turn = self.font.render("Defender", True, (0, 0, 255))
+            display.blit(turn, (730, 30))
+
         if self.game.is_selected:
             selected_unit_text = self.font.render("Selected Unit : " + str(self.game.selected_unit), True, (255, 255, 255))
             display.blit(selected_unit_text, (500,690))
-        self_destruct_text = self.font.render("Self-Destruct Next Unit : " + str(self.game.destruct_unit), True, (255, 255, 255))
-        display.blit(self_destruct_text, (500,670))
+        self_destruct_text = self.font.render("Self-Destruct Next Unit ? : " + str(self.game.destruct_unit), True, (255, 255, 255))
+        display.blit(self_destruct_text, (1020,690))
+        d_text = self.font.render("D + 2 x Clicks : To Destruct a Unit", True, (255, 255, 255))
+        display.blit(d_text, (1000, 10))
+        c_text = self.font.render("C : To Cancel a Move", True,(255, 255, 255))
+        display.blit(c_text, (1000, 30))
+        r_text = self.font.render("R : To Restart the Game", True, (255, 255, 255))
+        display.blit(r_text, (1000, 50))
+
+        zero_text = self.font.render("0", True, (255, 255, 255))
+        display.blit(zero_text, (660, 40))
+        one_text = self.font.render("1", True, (255, 255, 255))
+        display.blit(one_text, (660, 170))
+        two_text = self.font.render("2", True, (255, 255, 255))
+        display.blit(two_text, (660, 300))
+        three_text = self.font.render("3", True, (255, 255, 255))
+        display.blit(three_text, (660, 430))
+        four_text = self.font.render("4", True, (255, 255, 255))
+        display.blit(four_text, (660, 560))
+
+        a_text = self.font.render("A", True, (255, 255, 255))
+        display.blit(a_text, (60, 660))
+        b_text = self.font.render("B", True, (255, 255, 255))
+        display.blit(b_text, (190, 660))
+        c_text = self.font.render("C", True, (255, 255, 255))
+        display.blit(c_text, (320, 660))
+        d_text = self.font.render("D", True, (255, 255, 255))
+        display.blit(d_text, (450, 660))
+        e_text = self.font.render("E", True, (255, 255, 255))
+        display.blit(e_text, (580, 660))
+
 
     def pick_correct_square_color(self, row, column):
         color = Settings.WHITE
