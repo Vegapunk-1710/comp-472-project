@@ -203,8 +203,8 @@ class Unit:
 
     def encode_loc(self, loc):
         start = ord('A')
-        letter = chr(start + loc[1])
-        return str(str(letter) + str(loc[0]))
+        letter = chr(start + loc[0])
+        return str(str(letter) + str(loc[1]))
 
     def __str__(self):
         return str(self.belongs_to.value) + "'s " +  str(self.type.value) + " @ " + self.encode_loc(self.location) + ", In Combat ? : " +str(self.in_combat)
