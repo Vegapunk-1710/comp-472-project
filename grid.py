@@ -1,6 +1,7 @@
 import pygame
 
 from helper import decode_string_from_init_map_coordinate
+from output import write_init
 from settings import Settings
 from unit import Player, Type, Unit
 
@@ -16,6 +17,8 @@ class Grid:
             ["","","","aF9","aV9"],
             ["","","aP9","aV9","aA9"],
         ]
+
+        write_init(self.grid)
 
         for row in range(len(self.grid)):
             for column in range(len(self.grid[row])):
@@ -128,7 +131,7 @@ class Grid:
     def render_game_related_text(self, display):
         end = self.end_font.render(self.game.end_message, True, (255, 255, 255))
         display.blit(end, (690, 360))
-        counter = self.font.render("Round : " + str(self.game.counter), True, (255, 255, 255))
+        counter = self.font.render("Round : " + str(self.game.counter+1), True, (255, 255, 255))
         display.blit(counter, (680, 10))
         turn = self.font.render("Turn : ", True, (255, 255, 255))
         display.blit(turn, (680, 30))

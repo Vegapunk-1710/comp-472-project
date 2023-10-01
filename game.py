@@ -1,5 +1,7 @@
 import sys
 import pygame
+
+from output import write_end
 from settings import Settings
 from grid import Grid
 
@@ -26,6 +28,8 @@ class Game:
         self.turn = 0
         self.end = False
         self.end_message = ""
+
+
 
     def run(self):
         while not self.is_done:
@@ -112,8 +116,10 @@ class Game:
         self.destruct_unit = False
 
     def over(self):
-        self.end,  self.end_message = self.map.check_game_over()
-
+        if not self.end:
+            self.end,  self.end_message = self.map.check_game_over()
+            if self.end:
+                write_end(self.counter, self.end_message)
 
 
 Game().run()

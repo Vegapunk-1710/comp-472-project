@@ -1,5 +1,8 @@
 from enum import Enum
 
+from output import write_move, write_attack, write_attack_kill, write_attack_suicide, write_repair, write_self_destruct
+
+
 class Type(Enum):
     AI = "AI"
     VIRUS = "Virus"
@@ -126,6 +129,7 @@ class Unit:
                 self.game.map.grid[row_to_be_moved_to][column_to_be_moved_to] = self
                 self.location = [row_to_be_moved_to, column_to_be_moved_to]
                 self.game.map.grid[old_row][old_column] = None
+                write_move(self.game.counter, self.belongs_to.value, self.type.value, self.encode_loc([old_row, old_column]) , self.encode_loc([row_to_be_moved_to,column_to_be_moved_to]) )
 
 
     def get_attackable_units_location(self, adjacents):
@@ -143,10 +147,13 @@ class Unit:
                 other = self.game.map.grid[row_to_be_attacked][column_to_be_attacked]
                 other.health -= self.DAMAGE_CHART[self.type.value][other.type.value]
                 self.health -= self.DAMAGE_CHART[other.type.value][self.type.value]
+                write_attack(self.game.counter, self.belongs_to.value, self.type.value, other.belongs_to.value, other.type.value, other.health, self.encode_loc(self.location), self.encode_loc(other.location))
                 if other.health <= 0:
+                    write_attack_kill(self.game.counter, other.belongs_to.value, other.type.value, self.encode_loc(other.location))
                     self.game.map.grid[row_to_be_attacked][column_to_be_attacked] = None
                     del other
                 if self.health <= 0:
+                    write_attack_suicide(self.game.counter, self.belongs_to.value, self.type.value, self.encode_loc(self.location))
                     self.game.map.grid[self.location[0]][self.location[1]] = None
                     del self
 
@@ -164,6 +171,7 @@ class Unit:
                 other.health += self.REPAIR_CHART[self.type.value][other.type.value]
                 if other.health > 9:
                     other.health = 9
+                write_repair(self.game.counter, self.belongs_to.value, self.type.value, other.type.value, other.health, self.encode_loc(self.location), self.encode_loc(other.location))
 
     def get_impacted_units_location_by_destruction(self, adjacents, diagonals):
         surroundings = []
@@ -179,10 +187,11 @@ class Unit:
         for highlight in self.game.highlighted_destructions:
             other = self.game.map.grid[highlight[0]][highlight[1]]
             other.health -= 2
+            self.game.map.grid[self.location[0]][self.location[1]] = None
+            write_self_destruct(self.game.counter, self.belongs_to.value, self.type.value, other.belongs_to.value, other.type.value, other.health,self.encode_loc(self.location),self.encode_loc(other.location))
             if other.health <= 0:
                 self.game.map.grid[highlight[0]][highlight[1]] = None
                 del other
-        self.game.map.grid[self.location[0]][self.location[1]] = None
         del self
 
     def check_combat(self, adjacents):
@@ -192,11 +201,13 @@ class Unit:
                     return True
         return False
 
-    def __str__(self):
+    def encode_loc(self, loc):
         start = ord('A')
-        letter = chr(start + self.location[0])
-        location =  str(letter) + str(self.location[1])
-        return str(self.belongs_to.value) + "'s " +  str(self.type.value) + " @ " + str(location) + ", In Combat ? : " +str(self.in_combat)
+        letter = chr(start + loc[1])
+        return str(str(letter) + str(loc[0]))
+
+    def __str__(self):
+        return str(self.belongs_to.value) + "'s " +  str(self.type.value) + " @ " + self.encode_loc(self.location) + ", In Combat ? : " +str(self.in_combat)
 
 
 
