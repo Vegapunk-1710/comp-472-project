@@ -1,18 +1,23 @@
 import sys
 import pygame
 
-from output import write_end
+from output import write_end, change_filename
 from settings import Settings
 from grid import Grid
 
 class Game:
-    def __init__(self):
+    def __init__(self, filename, a_b, timeout, max_turns):
         pygame.init()
         pygame.font.init()
         self.display = pygame.display.set_mode(Settings.WINDOW_SIZE)
         pygame.display.set_caption("Wargame 💣")
         self.clock = pygame.time.Clock()
         self.is_done = False
+        change_filename(filename)
+
+        self.a_b = a_b
+        self.timeout = timeout
+        self.MAX_TURNS = max_turns
 
         self.map = Grid(self)
         self.is_selected = False
@@ -24,12 +29,9 @@ class Game:
         self.destruct_unit = False
 
         self.counter = 0
-        self.MAX_COUNTER = 100
         self.turn = 0
         self.end = False
         self.end_message = ""
-
-
 
     def run(self):
         while not self.is_done:
@@ -101,7 +103,7 @@ class Game:
         self.map = Grid(self)
         self.cancel()
         self.counter = 0
-        self.MAX_COUNTER = 100
+        self.MAX_TURNS = 100
         self.turn = 0
         self.end = False
         self.end_message = ""
@@ -122,4 +124,16 @@ class Game:
                 write_end(self.counter, self.end_message)
 
 
-Game().run()
+if __name__ == "__main__":
+    filename, a_b, timeout, max_turns = "gameTrace", False, 0, 100
+    if len(sys.argv) > 0 :
+        args = str(sys.argv[1])
+        args = args.replace(".txt", "")
+        splits = args.split("-")
+        filename = splits[0]
+        a_b = eval(splits[1].capitalize())
+        timeout = int(splits[2])
+        max_turns = int(splits[3])
+        print(filename, a_b, timeout, max_turns)
+    game = Game(filename, a_b, timeout, max_turns)
+    game.run()

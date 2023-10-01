@@ -1,4 +1,10 @@
-def write_init(grid, timeout=0, max_turns=100, ai="None", a_b="No", play_mode="H-H", e="None"):
+FIlENAME = ""
+
+def change_filename(filename):
+    global FIlENAME
+    FIlENAME = filename
+
+def write_init(grid, timeout=0, max_turns=100, ai="None", a_b=False, play_mode="H-H", e="None"):
     write('===========================================================================================')
     write("*PARAMETERS*")
     write("Timeout in seconds : " + str(timeout))
@@ -47,5 +53,5 @@ def write_end(turns, message):
     write('===========================================================================================')
 
 def write(s):
-    with open('gameTrace.txt', 'a') as f:
+    with open(FIlENAME+'.txt', 'a') as f:
         f.write(s + '\n')

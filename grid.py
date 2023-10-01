@@ -18,7 +18,7 @@ class Grid:
             ["","","aP9","aV9","aA9"],
         ]
 
-        write_init(self.grid)
+        write_init(self.grid, a_b=self.game.a_b, timeout=self.game.timeout, max_turns=self.game.MAX_TURNS)
 
         for row in range(len(self.grid)):
             for column in range(len(self.grid[row])):
@@ -75,7 +75,7 @@ class Grid:
             return True, "Defender Won!"
         elif not is_defender_ai_alive:
             return True, "Attacker Won!"
-        elif self.game.counter == self.game.MAX_COUNTER:
+        elif self.game.counter == self.game.MAX_TURNS:
             return True, "Game Over! Defender Won By Default!"
         else :
             return False, ""
