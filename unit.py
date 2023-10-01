@@ -207,7 +207,7 @@ class Unit:
         return str(str(letter) + str(loc[1]))
 
     def __str__(self):
-        return str(self.belongs_to.value) + "'s " +  str(self.type.value) + " @ " + self.encode_loc(self.location) + ", In Combat ? : " +str(self.in_combat)
+        return str(self.belongs_to.value) + "'s " + str(self.type.value) + " @ " + self.encode_loc(self.location) + ", In Combat ? : " +str(self.in_combat)
 
 
 
