@@ -127,13 +127,16 @@ class Game:
 if __name__ == "__main__":
     filename, a_b, timeout, max_turns = "gameTrace", False, 0, 100
     if len(sys.argv) > 0 :
-        args = str(sys.argv[1])
-        args = args.replace(".txt", "")
-        splits = args.split("-")
-        filename = splits[0]
-        a_b = eval(splits[1].capitalize())
-        timeout = int(splits[2])
-        max_turns = int(splits[3])
-        print(filename, a_b, timeout, max_turns)
+        try:
+            args = str(sys.argv[1])
+            args = args.replace(".txt", "")
+            splits = args.split("-")
+            filename = splits[0]
+            a_b = eval(splits[1].capitalize())
+            timeout = int(splits[2])
+            max_turns = int(splits[3])
+            print(filename, a_b, timeout, max_turns)
+        except:
+            pass
     game = Game(filename, a_b, timeout, max_turns)
     game.run()
