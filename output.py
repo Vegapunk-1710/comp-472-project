@@ -53,5 +53,5 @@ def write_end(turns, message):
     write('===========================================================================================')
 
 def write(s):
-    with open(FIlENAME+'.txt', 'a') as f:
+    with open(FIlENAME+'.txt', 'a', encoding="utf-8") as f:
         f.write(s + '\n')
