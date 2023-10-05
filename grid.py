@@ -62,6 +62,8 @@ class Grid:
         return diag
 
     def check_game_over(self):
+        if self.game.counter == self.game.MAX_TURNS:
+            return True, "Game Over! Defender Won By Default!"
         is_attacker_ai_alive = False
         is_defender_ai_alive = False
         for row in range(len(self.grid)):
@@ -75,16 +77,14 @@ class Grid:
             return True, "Defender Won!"
         elif not is_defender_ai_alive:
             return True, "Attacker Won!"
-        elif self.game.counter == self.game.MAX_TURNS:
-            return True, "Game Over! Defender Won By Default!"
         else :
             return False, ""
+
 
 
     def render(self, display):
         for row in range(5):
             for column in range(5):
-
                 x = (Settings.SQUARE_MARGIN + Settings.SQUARE_WIDTH) * column + Settings.SQUARE_MARGIN
                 y = (Settings.SQUARE_MARGIN + Settings.SQUARE_HEIGHT) * row + Settings.SQUARE_MARGIN
 
