@@ -136,7 +136,7 @@ if __name__ == "__main__":
             timeout = int(splits[2])
             max_turns = int(splits[3])
             print(filename, a_b, timeout, max_turns)
-        except:
-            pass
+        except Exception as e:
+            print(e)
     game = Game(filename, a_b, timeout, max_turns)
     game.run()
