@@ -166,8 +166,8 @@ class Grid:
         end = self.end_font.render(self.game.end_message, True, (255, 255, 255))
         display.blit(end, (690, 360))
         if self.game.warning:
-            warning = self.font.render("This is an illegal move! Click on highlighted squares only.", True, (255, 255, 0))
-            display.blit(warning, (690, 360))
+            warning = self.font.render("This is an illegal move! Click on highlighted squares only OR Cancel by pressing C.", True, (255, 255, 0))
+            display.blit(warning, (680, 360))
         counter = self.font.render("Round : " + str(self.game.counter+1), True, (255, 255, 255))
         display.blit(counter, (680, 10))
         turn = self.font.render("Turn : ", True, (255, 255, 255))
