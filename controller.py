@@ -20,10 +20,10 @@ class Controller:
         self.is_defender_ai = is_defender_ai
         if is_attacker_ai:
             #example of an AI for the attacker
-            self.attacker_ai = AI(self.game, Player.Attacker, "minimax", "e0")
+            self.attacker_ai = AI(self.game, Player.ATTACKER, self.game.a_b, "e0")
         if is_defender_ai:
             #example of an AI for the defender
-            self.defender_ai = AI(self.game, Player.DEFENDER, "a_b", "e1")
+            self.defender_ai = AI(self.game, Player.DEFENDER, self.game.a_b, "e1")
 
     def handle_click(self):
         pos = pygame.mouse.get_pos()

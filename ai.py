@@ -3,10 +3,10 @@ from unit import Player
 
 
 class AI:
-    def __init__(self, game, belongs_to : Player, algorithm : str, heuristic_choice : str):
+    def __init__(self, game, belongs_to : Player, algorithm : bool, heuristic_choice : str):
         self.game = game
         self.belongs_to = belongs_to                    #Player.Attacker or Player.Defender
-        self.algorithm = algorithm                      #alpha beta or minimax (could be a string : "a_b")
+        self.algorithm = algorithm                      #if false , alpha_beta else, minimax
         self.heuristic_choice = heuristic_choice        #heurisitc function choice (could also be a string : "e0")
         self.current_state : States = None              #starting state (can be set later)
 
