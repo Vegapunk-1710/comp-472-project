@@ -20,17 +20,51 @@ class Grid:
 
         write_init(self.grid, a_b=self.game.a_b, timeout=self.game.timeout, max_turns=self.game.MAX_TURNS)
 
-        for row in range(len(self.grid)):
-            for column in range(len(self.grid[row])):
-                if self.grid[row][column] != "":
-                    place = [row, column]
-                    belongs_to, type, health = decode_string_from_init_map_coordinate(self.grid[row][column])
-                    self.grid[row][column] = Unit(health, type, belongs_to, place, self.game)
-                else:
-                    self.grid[row][column] = None
+        self.grid = self.decode_grid_from_strings(self.grid)
 
         self.font = pygame.font.SysFont('Comic Sans MS', 16)
         self.end_font = pygame.font.SysFont('Comic Sans MS', 32)
+
+    def decode_grid_from_strings(self, grid_str):
+        grid = [
+            [None,None,None,None,None],
+            [None,None,None,None,None],
+            [None,None,None,None,None],
+            [None,None,None,None,None],
+            [None,None,None,None,None]
+        ]
+        for row in range(len(grid_str)):
+            for column in range(len(grid_str[row])):
+                if grid_str[row][column] != "":
+                    place = [row, column]
+                    belongs_to, type, health = decode_string_from_init_map_coordinate(grid_str[row][column])
+                    grid[row][column] = Unit(health, type, belongs_to, place, self.game)
+                else:
+                    grid[row][column] = None
+        return grid
+
+    def encode_grid_to_strings(self, grid):
+        grid_str = [
+            ["", "", "", "", ""],
+            ["", "", "", "", ""],
+            ["", "", "", "", ""],
+            ["", "", "", "", ""],
+            ["", "", "", "", ""]
+        ]
+        for row in range(len(grid)):
+            for column in range(len(grid[row])):
+                if grid[row][column] != None:
+                   belongs_to = grid[row][column].belongs_to.value[0].lower()
+                   type = grid[row][column].type.value[0].upper()
+                   health = str( grid[row][column].health)
+                   grid_str[row][column] = belongs_to+type+health
+                else:
+                    grid_str[row][column] = ""
+        return grid_str
+
+    def get_state(self):
+        return self.encode_grid_to_strings(self.grid)
+
 
     def check_adjacents(self, row, column):
         adj = {}

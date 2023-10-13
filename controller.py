@@ -1,6 +1,10 @@
 import pygame
 
+from ai import AI
 from settings import Settings
+from states import States
+from unit import Player
+
 
 class Controller:
     def __init__(self, game, is_attacker_ai=False, is_defender_ai=False):
@@ -14,6 +18,12 @@ class Controller:
         self.destruct_unit = False
         self.is_attacker_ai = is_attacker_ai
         self.is_defender_ai = is_defender_ai
+        if is_attacker_ai:
+            #example of an AI for the attacker
+            self.attacker_ai = AI(self.game, Player.Attacker, "minimax", "e0")
+        if is_defender_ai:
+            #example of an AI for the defender
+            self.defender_ai = AI(self.game, Player.DEFENDER, "a_b", "e1")
 
     def handle_click(self):
         pos = pygame.mouse.get_pos()
@@ -81,7 +91,9 @@ class Controller:
         #Choose an AI algorithm and use it
         #Make the unit do the action
         try:
-            pass
+            current_state = self.game.map.get_state()
+            state = States(current_state, Player.ATTACKER)
+            state.populate_potential_states()
         except:
             pass
         finally:
@@ -96,7 +108,9 @@ class Controller:
         #Choose an AI algorithm and use it
         #Make the unit do the action
         try:
-            pass
+            current_state = self.game.map.get_state()
+            state = States(current_state, Player.DEFENDER)
+            state.populate_potential_states()
         except:
             pass
         finally:
