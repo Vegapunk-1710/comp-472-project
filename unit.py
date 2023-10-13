@@ -130,6 +130,7 @@ class Unit:
                 self.location = [row_to_be_moved_to, column_to_be_moved_to]
                 self.game.map.grid[old_row][old_column] = None
                 write_move(self.game.counter, self.belongs_to.value, self.type.value, self.encode_loc([old_row, old_column]) , self.encode_loc([row_to_be_moved_to,column_to_be_moved_to]) )
+                return True
 
 
     def get_attackable_units_location(self, adjacents):
@@ -156,6 +157,7 @@ class Unit:
                     write_attack_suicide(self.game.counter, self.belongs_to.value, self.type.value, self.encode_loc(self.location))
                     self.game.map.grid[self.location[0]][self.location[1]] = None
                     del self
+                return True
 
     def get_repairable_units_location(self, adjacents):
         repairs = []
@@ -172,6 +174,7 @@ class Unit:
                 if other.health > 9:
                     other.health = 9
                 write_repair(self.game.counter, self.belongs_to.value, self.type.value, other.type.value, other.health, self.encode_loc(self.location), self.encode_loc(other.location))
+                return True
 
     def get_impacted_units_location_by_destruction(self, adjacents, diagonals):
         surroundings = []
@@ -193,6 +196,7 @@ class Unit:
                 self.game.map.grid[highlight[0]][highlight[1]] = None
                 del other
         del self
+        return True
 
     def check_combat(self, adjacents):
         for key, value in adjacents.items():

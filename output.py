@@ -52,6 +52,11 @@ def write_end(turns, message):
     write(s)
     write('===========================================================================================')
 
+def write_illegal_move(turn, player, type, old_loc, new_loc):
+    print("Warning ! " + player + "'s " + type + " can't move from " + old_loc + " to " + new_loc + " since it's an illegal move.")
+    s = "Turn #" + str(turn+1) + " : " + player + "'s " + type + " can't move from " + old_loc + " to " + new_loc + " since it's an illegal move."
+    write(s)
+
 def write(s):
     with open(FIlENAME+'.txt', 'a', encoding="utf-8") as f:
         f.write(s + '\n')

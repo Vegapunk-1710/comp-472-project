@@ -1,6 +1,7 @@
 import pygame
 
 from ai import AI
+from output import write_illegal_move
 from settings import Settings
 from states import States
 from unit import Player
@@ -58,17 +59,24 @@ class Controller:
         try:
             if self.destruct_unit and (
                     self.highlighted_moves == [] and self.highlighted_attacks == [] and self.highlighted_repairs == []):
-                self.selected_unit.self_destruct()
+                    self.selected_unit.self_destruct()
+                    self.cancel()
+                    self.game.counter += 1
+                    self.game.turn = self.game.counter % 2
             else:
-                self.selected_unit.move(to_row, to_column)
-                self.selected_unit.attack(to_row, to_column)
-                self.selected_unit.repair(to_row, to_column)
+                did_move = self.selected_unit.move(to_row, to_column)
+                did_attack = self.selected_unit.attack(to_row, to_column)
+                did_repair = self.selected_unit.repair(to_row, to_column)
+                if did_move or did_attack or did_repair:
+                    self.cancel()
+                    self.game.counter += 1
+                    self.game.turn = self.game.counter % 2
+                else:
+                    write_illegal_move(self.game.counter, self.selected_unit.belongs_to.value, self.selected_unit.type.value, self.selected_unit.encode_loc(self.selected_unit.location), self.selected_unit.encode_loc([to_row,to_column]))
+                    self.game.warning = True
         except Exception as e:
             print(e)
-        finally:
-            self.cancel()
-            self.game.counter += 1
-            self.game.turn = self.game.counter % 2
+
 
     def cancel(self):
         self.is_selected = False
@@ -78,6 +86,7 @@ class Controller:
         self.highlighted_repairs = []
         self.highlighted_destructions = []
         self.destruct_unit = False
+        self.game.warning = False
 
     def handle_ai(self):
         if self.game.turn == 0 and self.is_attacker_ai:

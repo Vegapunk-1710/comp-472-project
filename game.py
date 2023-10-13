@@ -28,6 +28,7 @@ class Game:
         self.turn = 0
         self.end = False
         self.end_message = ""
+        self.warning = False
 
     def run(self):
         while not self.is_done:
