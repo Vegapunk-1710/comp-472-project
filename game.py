@@ -48,8 +48,7 @@ class Game:
                         self.controller.cancel()
 
             if (self.turn == 0 and self.controller.is_attacker_ai) or (self.turn == 1 and self.controller.is_defender_ai):
-                self.controller.handle_ai()
-
+                    self.controller.handle_ai()
 
             self.display.fill(Settings.BLACK)
             self.map.render(self.display)

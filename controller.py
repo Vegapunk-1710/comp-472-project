@@ -8,7 +8,7 @@ from unit import Player
 
 
 class Controller:
-    def __init__(self, game, is_attacker_ai=False, is_defender_ai=False):
+    def __init__(self, game, is_attacker_ai=False, is_defender_ai=True):
         self.game = game
         self.is_selected = False
         self.selected_unit = None
@@ -103,8 +103,8 @@ class Controller:
             current_state = self.game.map.get_state()
             state = States(current_state, Player.ATTACKER)
             state.populate_potential_states()
-        except:
-            pass
+        except Exception as e:
+            print(e)
         finally:
             self.cancel()
             self.game.counter += 1
@@ -116,13 +116,13 @@ class Controller:
         #Calculate the heuristic value for every state
         #Choose an AI algorithm and use it
         #Make the unit do the action
-        try:
+        # try:
             current_state = self.game.map.get_state()
             state = States(current_state, Player.DEFENDER)
             state.populate_potential_states()
-        except:
-            pass
-        finally:
+        # except Exception as e:
+            # print(e)
+        # finally:
             self.cancel()
             self.game.counter += 1
             self.game.turn = self.game.counter % 2
