@@ -123,7 +123,7 @@ class Unit:
         return moves
 
     def move(self, row_to_be_moved_to, column_to_be_moved_to):
-        for highlight in self.game.highlighted_moves:
+        for highlight in self.game.controller.highlighted_moves:
             if row_to_be_moved_to == highlight[0] and column_to_be_moved_to == highlight[1]:
                 old_row, old_column = self.location
                 self.game.map.grid[row_to_be_moved_to][column_to_be_moved_to] = self
@@ -142,7 +142,7 @@ class Unit:
         return attacks
 
     def attack(self, row_to_be_attacked, column_to_be_attacked):
-        for highlight in self.game.highlighted_attacks:
+        for highlight in self.game.controller.highlighted_attacks:
             if row_to_be_attacked == highlight[0] and column_to_be_attacked == highlight[1]:
                 other = self.game.map.grid[row_to_be_attacked][column_to_be_attacked]
                 other.health -= self.DAMAGE_CHART[self.type.value][other.type.value]
@@ -165,7 +165,7 @@ class Unit:
         return repairs
 
     def repair(self, row_to_be_repaired, column_to_be_repaired):
-        for highlight in self.game.highlighted_repairs:
+        for highlight in self.game.controller.highlighted_repairs:
             if row_to_be_repaired == highlight[0] and column_to_be_repaired == highlight[1]:
                 other = self.game.map.grid[row_to_be_repaired][column_to_be_repaired]
                 other.health += self.REPAIR_CHART[self.type.value][other.type.value]
@@ -184,7 +184,7 @@ class Unit:
         return surroundings
 
     def self_destruct(self):
-        for highlight in self.game.highlighted_destructions:
+        for highlight in self.game.controller.highlighted_destructions:
             other = self.game.map.grid[highlight[0]][highlight[1]]
             other.health -= 2
             self.game.map.grid[self.location[0]][self.location[1]] = None

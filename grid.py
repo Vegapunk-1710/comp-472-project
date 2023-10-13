@@ -108,12 +108,12 @@ class Grid:
         self.render_game_related_text(display)
 
     def render_units_attacked_health(self, row, column, x, y, display):
-        health_minus_damage = self.get_health_impact(row, column, self.game.selected_unit.DAMAGE_CHART, " - ")
+        health_minus_damage = self.get_health_impact(row, column, self.game.controller.selected_unit.DAMAGE_CHART, " - ")
         health_minus_damage = self.font.render(health_minus_damage, True, (0, 0, 0))
         display.blit(health_minus_damage, (x + 45, y + 15))
 
     def render_units_healed_health(self, row, column, x, y, display):
-        health_plus_repair = self.get_health_impact(row, column, self.game.selected_unit.REPAIR_CHART, " + ")
+        health_plus_repair = self.get_health_impact(row, column, self.game.controller.selected_unit.REPAIR_CHART, " + ")
         health_plus_repair = self.font.render(health_plus_repair, True, (0, 0, 0))
         display.blit(health_plus_repair, (x + 45, y + 15))
 
@@ -123,7 +123,7 @@ class Grid:
         display.blit(health_minus_damage, (x + 45, y + 15))
 
     def get_health_impact(self, row_impacted, column_impacted, chart, sign):
-        from_type = self.game.selected_unit.type.value
+        from_type = self.game.controller.selected_unit.type.value
         to_type = self.grid[row_impacted][column_impacted].type.value
         impact = str(chart[from_type][to_type])
         return str(self.grid[row_impacted][column_impacted].health) + sign + impact
@@ -142,10 +142,10 @@ class Grid:
             turn = self.font.render("Defender", True, (0, 0, 255))
             display.blit(turn, (730, 30))
 
-        if self.game.is_selected:
-            selected_unit_text = self.font.render("Selected Unit : " + str(self.game.selected_unit), True, (255, 255, 255))
+        if self.game.controller.is_selected:
+            selected_unit_text = self.font.render("Selected Unit : " + str(self.game.controller.selected_unit), True, (255, 255, 255))
             display.blit(selected_unit_text, (500,690))
-        self_destruct_text = self.font.render("Self-Destruct Next Unit ? : " + str(self.game.destruct_unit), True, (255, 255, 255))
+        self_destruct_text = self.font.render("Self-Destruct Next Unit ? : " + str(self.game.controller.destruct_unit), True, (255, 255, 255))
         display.blit(self_destruct_text, (1020,690))
         d_text = self.font.render("D + 2 x Clicks : To Destruct a Unit", True, (255, 255, 255))
         display.blit(d_text, (1000, 10))
@@ -185,16 +185,16 @@ class Grid:
         elif self.grid[row][column] and self.grid[row][column].belongs_to == Player.DEFENDER:
             color = Settings.BLUE
 
-        for highlight in self.game.highlighted_moves:
+        for highlight in self.game.controller.highlighted_moves:
             if row == highlight[0] and column == highlight[1]:
                 color = Settings.GREEN
-        for highlight in self.game.highlighted_attacks:
+        for highlight in self.game.controller.highlighted_attacks:
             if row == highlight[0] and column == highlight[1]:
                 color = Settings.ORANGE
-        for highlight in self.game.highlighted_repairs:
+        for highlight in self.game.controller.highlighted_repairs:
             if row == highlight[0] and column == highlight[1]:
                 color = Settings.PURPLE
-        for highlight in self.game.highlighted_destructions:
+        for highlight in self.game.controller.highlighted_destructions:
             if row == highlight[0] and column == highlight[1]:
                 color = Settings.YELLOW
 
