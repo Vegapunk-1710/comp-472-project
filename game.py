@@ -16,7 +16,7 @@ class Game:
         self.is_done = False
         change_filename(filename)
 
-        self.mode = "A-A"
+        self.mode = "H-A"
         self.a_b = a_b
         self.timeout = timeout
         self.MAX_TURNS = max_turns
