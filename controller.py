@@ -8,7 +8,7 @@ from unit import Player
 
 
 class Controller:
-    def __init__(self, game, is_attacker_ai=False, is_defender_ai=True):
+    def __init__(self, game, mode):
         self.game = game
         self.is_selected = False
         self.selected_unit = None
@@ -17,12 +17,11 @@ class Controller:
         self.highlighted_repairs = []
         self.highlighted_destructions = []
         self.destruct_unit = False
-        self.is_attacker_ai = is_attacker_ai
-        self.is_defender_ai = is_defender_ai
-        if is_attacker_ai:
+        self.mode = mode
+        if mode[0] != "H":
             #example of an AI for the attacker
             self.attacker_ai = AI(self.game, Player.ATTACKER, self.game.a_b, "e0")
-        if is_defender_ai:
+        if mode[2] != "H":
             #example of an AI for the defender
             self.defender_ai = AI(self.game, Player.DEFENDER, self.game.a_b, "e1")
 
@@ -89,7 +88,7 @@ class Controller:
         self.game.warning = False
 
     def handle_ai(self):
-        if self.game.turn == 0 and self.is_attacker_ai:
+        if self.game.turn == 0 and self.mode[0] == "A":
             self.attacker_ai_play()
         else:
             self.defender_ai_play()

@@ -9,7 +9,7 @@ def write_init(grid, timeout=0, max_turns=100, ai="None", a_b=False, play_mode="
     write("*PARAMETERS*")
     write("Timeout in seconds : " + str(timeout))
     write("Max number of turns : " + str(max_turns))
-    write("AI Player  : " + str(ai) + ", Alpha-Beta  : " + str(a_b))
+    write("AI Player  : " + ("Attacker" if play_mode[0] == "A" else "Defender" if play_mode[2] == "A" else "None" if play_mode[0] != "A" and play_mode[2] != "A" else "Attacker & Defender") + ", Alpha-Beta  : " + str(a_b))
     write("Play Mode  : " + str(play_mode))
     write("Name of Heuristic : " + str(e))
     write('===========================================================================================')

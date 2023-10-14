@@ -16,11 +16,12 @@ class Game:
         self.is_done = False
         change_filename(filename)
 
+        self.mode = "A-A"
         self.a_b = a_b
         self.timeout = timeout
         self.MAX_TURNS = max_turns
 
-        self.controller = Controller(self)
+        self.controller = Controller(self, self.mode)
 
         self.map = Grid(self)
 
@@ -37,7 +38,7 @@ class Game:
                     self.is_done = True
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if not self.end and ((self.turn == 0 and not self.controller.is_attacker_ai) or (self.turn == 1 and not self.controller.is_defender_ai)):
+                    if not self.end and ((self.turn == 0 and self.mode[0] == "H") or (self.turn == 1 and self.mode[2] == "H")):
                         self.controller.handle_click()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_d:
@@ -47,7 +48,7 @@ class Game:
                     if event.key == pygame.K_c:
                         self.controller.cancel()
 
-            if (self.turn == 0 and self.controller.is_attacker_ai) or (self.turn == 1 and self.controller.is_defender_ai):
+            if (self.turn == 0 and self.mode[0] != "H") or (self.turn == 1 and self.mode[2] != "H"):
                     self.controller.handle_ai()
 
             self.display.fill(Settings.BLACK)
