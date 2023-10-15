@@ -15,7 +15,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.is_done = False
         change_filename(filename)
-
+        #COULD MESS UP TESTING, MAKE IT "H-H" for Attacker:Human vs Defender:Human
         self.mode = "H-A"
         self.a_b = a_b
         self.timeout = timeout
@@ -48,7 +48,7 @@ class Game:
                     if event.key == pygame.K_c:
                         self.controller.cancel()
 
-            if (self.turn == 0 and self.mode[0] != "H") or (self.turn == 1 and self.mode[2] != "H"):
+            if not self.end and (self.turn == 0 and self.mode[0] != "H") or (self.turn == 1 and self.mode[2] != "H"):
                     self.controller.handle_ai()
 
             self.display.fill(Settings.BLACK)

@@ -3,7 +3,7 @@ import pygame
 from ai import AI
 from output import write_illegal_move
 from settings import Settings
-from states import States
+from state import State
 from unit import Player
 
 
@@ -100,8 +100,8 @@ class Controller:
         #Make the unit do the action
         try:
             current_state = self.game.map.get_state()
-            state = States(current_state, Player.ATTACKER)
-            state.populate_potential_states()
+            state = State(current_state, Player.ATTACKER, 0)
+            state.populate_potential_states(depth=3)
         except Exception as e:
             print(e)
         finally:
@@ -117,8 +117,8 @@ class Controller:
         #Make the unit do the action
         # try:
             current_state = self.game.map.get_state()
-            state = States(current_state, Player.DEFENDER)
-            state.populate_potential_states()
+            state = State(current_state, Player.DEFENDER, 0)
+            state.populate_potential_states(depth=3)
         # except Exception as e:
             # print(e)
         # finally:
