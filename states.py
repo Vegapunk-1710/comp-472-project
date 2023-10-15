@@ -97,7 +97,7 @@ class States:
         destruct_states = self.get_potential_destructs(current_state, belongs_to_char)
         states.extend(move_states)
         states.extend(attack_states)
-        # states.extend(repair_states)
+        states.extend(repair_states)
         # states.extend(destruct_states)
         for state in states:
             self.print_state(state)
@@ -147,7 +147,7 @@ class States:
                     unit = new_state[row][column]
                     new_state[to_row][to_column] = unit
                     new_state[row][column] = ""
-                    new_state = States(new_state, Player.ATTACKER,
+                    new_state = States(new_state, self.switch_state_belonging(),
                                        self.get_to_string_from_move(unit, [row, column], [to_row, to_column]))
                     new_states.append(new_state)
         return new_states
@@ -187,7 +187,6 @@ class States:
 
     def apply_potential_attacks(self, current_state, row, column, potential_attacks):
         new_states = []
-        desc = ""
         for coord in potential_attacks:
             if coord != None:
                 new_state = copy.deepcopy(current_state)
@@ -210,7 +209,7 @@ class States:
                     other_unit = ""
                 new_state[row][column] = unit
                 new_state[to_row][to_column] = other_unit
-                state = States(new_state, Player.ATTACKER, desc)
+                state = States(new_state, self.switch_state_belonging(), desc)
                 new_states.append(state)
         return new_states
 
@@ -223,10 +222,66 @@ class States:
         return False
 
     def get_potential_repairs(self, current_state, belongs_to_char):
-        pass
+        repair_states = []
+        for row in range(len(current_state)):
+            for column in range(len(current_state[row])):
+                if current_state[row][column] != "" and belongs_to_char in current_state[row][column]:
+                    potential_repairs = self.check_potential_repairs(current_state, row, column)
+                    applied_repairs = self.apply_potential_repairs(current_state, row, column, potential_repairs)
+                    repair_states.extend(applied_repairs)
+        return repair_states
+
+    def check_potential_repairs(self, current_state, row, column):
+        potential_repairs = []
+        belongs_to_char, type_char, health = current_state[row][column][0], current_state[row][column][1], int(
+            current_state[row][column][2])
+        up, left, down, right = None, None, None, None
+        if row - 1 >= 0:
+            up = [row - 1, column]
+            if current_state[row-1][column] != "" and belongs_to_char == current_state[row-1][column][0]:
+                potential_repairs.append(up)
+        if column - 1 >= 0:
+            left = [row, column - 1]
+            if current_state[row][column-1] != "" and belongs_to_char == current_state[row][column-1][0]:
+                potential_repairs.append(left)
+        if row + 1 <= 4:
+            down = [row + 1, column]
+            if current_state[row+1][column] != "" and belongs_to_char == current_state[row+1][column][0]:
+                potential_repairs.append(down)
+        if column + 1 <= 4:
+            right = [row, column + 1]
+            if current_state[row][column+1] != "" and belongs_to_char == current_state[row][column+1][0]:
+                potential_repairs.append(right)
+        return potential_repairs
+
+    def apply_potential_repairs(self, current_state, row, column, potential_repairs):
+        new_states = []
+        for coord in potential_repairs:
+            if coord != None:
+                new_state = copy.deepcopy(current_state)
+                to_row, to_column = coord[0], coord[1]
+                unit = new_state[row][column]
+                other_unit = new_state[to_row][to_column]
+                out_heal = REPAIR_CHART[unit[1]][other_unit[1]]
+                if int(other_unit[2]) < 9 and out_heal > 0:
+                    other_unit = other_unit.replace(other_unit[2],str(int(other_unit[2]) + out_heal))
+                    if int(other_unit[2]) + out_heal > 9:
+                        other_unit = other_unit.replace(other_unit[2],"9")
+                    desc = self.get_to_string_from_repair(unit, other_unit, [row, column], [to_row, to_column])
+                    new_state[row][column] = unit
+                    new_state[to_row][to_column] = other_unit
+                    state = States(new_state, self.switch_state_belonging(), desc)
+                    new_states.append(state)
+        return new_states
 
     def get_potential_destructs(self, current_state, belongs_to_char):
         pass
+
+    def switch_state_belonging(self):
+        if self.belongs_to == Player.ATTACKER:
+            return Player.DEFENDER
+        else:
+            return Player.ATTACKER
 
     def print_state(self, state):
         print("=========================================")
@@ -261,11 +316,21 @@ class States:
         if health > 0 and other_health > 0:
             s = belongs_to + "'s " + type + " attacked " + other_belongs_to + "'s " + other_type + " ↓ " + str(other_health) + " (" + old_loc + " → " + new_loc + "). "
         else:
-            if health <= 0 :
-                s += belongs_to + "'s " + type + " killed themselves by attacking. " + old_loc + " is now an empty space. "
             if other_health <= 0:
                 s += other_belongs_to + "'s " + other_type + " got killed. " + new_loc + " is now an empty space. "
+            if health <= 0 :
+                s += belongs_to + "'s " + type + " killed themselves by attacking. " + old_loc + " is now an empty space. "
         return s
+
+    def get_to_string_from_repair(self, unit, other_unit, old_loc, new_loc):
+        belongs_to_char, type_char, health = unit[0], unit[1], int(unit[2])
+        other_belongs_to_char, other_type_char, other_health = other_unit[0], other_unit[1], int(other_unit[2])
+        belongs_to = self.get_belongs_to_value(belongs_to_char)
+        type = self.get_type_value(type_char)
+        other_type = self.get_type_value(other_type_char)
+        old_loc = self.get_loc_value(old_loc)
+        new_loc = self.get_loc_value(new_loc)
+        return belongs_to + "'s " + type + " repaired its " + other_type + " ↑ " + str(other_health) + " (" + old_loc + " → " + new_loc + ")."
 
     def get_belongs_to_value(self, belongs_to_char):
         if belongs_to_char == "a":
@@ -289,5 +354,9 @@ class States:
         start = ord('A')
         letter = chr(start + loc[0])
         return str(str(letter) + str(loc[1]))
+
+
+
+
 
 
