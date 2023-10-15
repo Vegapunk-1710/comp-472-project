@@ -94,7 +94,7 @@ class Controller:
             self.defender_ai_play()
 
     def attacker_ai_play(self):
-        #Get the current and potential states
+        #Get the current and potential states : DONE
         #Calculate the heuristic value for every state
         #Choose an AI algorithm and use it
         #Make the unit do the action
@@ -111,17 +111,17 @@ class Controller:
         pass
 
     def defender_ai_play(self):
-        #Get the current and potential states
+        #Get the current and potential states : DONE
         #Calculate the heuristic value for every state
         #Choose an AI algorithm and use it
         #Make the unit do the action
-        # try:
+        try:
             current_state = self.game.map.get_state()
             state = State(current_state, Player.DEFENDER, 0)
             state.populate_potential_states(depth=3)
-        # except Exception as e:
-            # print(e)
-        # finally:
+        except Exception as e:
+            print(e)
+        finally:
             self.cancel()
             self.game.counter += 1
             self.game.turn = self.game.counter % 2
