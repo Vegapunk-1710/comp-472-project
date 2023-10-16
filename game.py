@@ -1,23 +1,35 @@
 import sys
 import pygame
+
+from controller import Controller
+from output import write_end, change_filename
 from settings import Settings
 from grid import Grid
 
 class Game:
-    def __init__(self):
+    def __init__(self, filename, a_b, timeout, max_turns):
         pygame.init()
         pygame.font.init()
-        self.map = Grid(self)
         self.display = pygame.display.set_mode(Settings.WINDOW_SIZE)
         pygame.display.set_caption("Wargame 💣")
         self.clock = pygame.time.Clock()
         self.is_done = False
+        change_filename(filename)
+        #COULD MESS UP TESTING, MAKE IT "H-H" for Attacker:Human vs Defender:Human
+        self.mode = "H-A"
+        self.a_b = a_b
+        self.timeout = timeout
+        self.MAX_TURNS = max_turns
 
-        self.is_selected = False
-        self.selected_unit = None
-        self.highlighted_moves = []
-        self.highlighted_attacks = []
-        self.highlighted_repairs = []
+        self.controller = Controller(self, self.mode)
+
+        self.map = Grid(self)
+
+        self.counter = 0
+        self.turn = 0
+        self.end = False
+        self.end_message = ""
+        self.warning = False
 
     def run(self):
         while not self.is_done:
@@ -26,48 +38,58 @@ class Game:
                     self.is_done = True
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    self.handle_click()
+                    if not self.end and ((self.turn == 0 and self.mode[0] == "H") or (self.turn == 1 and self.mode[2] == "H")):
+                        self.controller.handle_click()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_d:
+                        self.controller.destruct_unit = not self.controller.destruct_unit
+                    if event.key == pygame.K_r:
+                        self.restart()
+                    if event.key == pygame.K_c:
+                        self.controller.cancel()
+
+            if not self.end and (self.turn == 0 and self.mode[0] != "H") or (self.turn == 1 and self.mode[2] != "H"):
+                    self.controller.handle_ai()
 
             self.display.fill(Settings.BLACK)
             self.map.render(self.display)
+            self.over()
 
             self.clock.tick(60)
             pygame.display.flip()
 
         pygame.quit()
 
-    def handle_click(self):
-        pos = pygame.mouse.get_pos()
-        column = pos[0] // (Settings.SQUARE_WIDTH + Settings.SQUARE_MARGIN)
-        row = pos[1] // (Settings.SQUARE_HEIGHT + Settings.SQUARE_MARGIN)
-        if not self.is_selected:
-            self.get_unit(row, column)
-        else:
-            self.set_unit(row, column)
 
-    def get_unit(self, from_row, from_column):
+    def restart(self):
+        self.map = Grid(self)
+        self.controller.cancel()
+        self.counter = 0
+        self.MAX_TURNS = 100
+        self.turn = 0
+        self.end = False
+        self.end_message = ""
+
+    def over(self):
+        if not self.end:
+            self.end,  self.end_message = self.map.check_game_over()
+            if self.end:
+                write_end(self.counter, self.end_message)
+
+
+if __name__ == "__main__":
+    filename, a_b, timeout, max_turns = "gameTrace", False, 0, 100
+    if len(sys.argv) > 0 :
         try:
-            if from_row <= 4 and from_column <= 4 and self.map.grid[from_row][from_column] != None:
-                self.selected_unit, adjacents = self.map.check_adjacents(from_row, from_column)
-                self.highlighted_moves = self.selected_unit.movement(adjacents)
-                self.highlighted_attacks = self.selected_unit.attacking(adjacents)
-                # self.highlighted_repairs = self.selected_unit.repair(adjacents)
-                self.is_selected = True
+            args = str(sys.argv[1])
+            args = args.replace(".txt", "")
+            splits = args.split("-")
+            filename = splits[0]
+            a_b = eval(splits[1].capitalize())
+            timeout = int(splits[2])
+            max_turns = int(splits[3])
+            print(filename, a_b, timeout, max_turns)
         except Exception as e:
             print(e)
-
-    def set_unit(self, to_row, to_column):
-        try:
-            self.selected_unit.move(to_row, to_column)
-            self.selected_unit.attack(to_row, to_column)
-            # self.selected_unit.repair(to_row, to_column)
-        except Exception as e:
-            print(e)
-        finally:
-            self.is_selected = False
-            self.selected_unit = None
-            self.highlighted_moves = []
-            self.highlighted_attacks = []
-            self.highlighted_repairs = []
-
-Game().run()
+    game = Game(filename, a_b, timeout, max_turns)
+    game.run()

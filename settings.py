@@ -5,6 +5,8 @@ class Settings:
     RED = (255, 0, 0)
     BLUE = (0, 0, 255)
     ORANGE = (255, 165, 0)
+    PURPLE = (128, 0, 128)
+    YELLOW = (255,255,0)
 
     SQUARE_MARGIN = 5
 
@@ -12,5 +14,5 @@ class Settings:
     WINDOW_HEIGHT = 720
     WINDOW_SIZE = [WINDOW_WIDTH, WINDOW_HEIGHT]
 
-    SQUARE_WIDTH = 100
-    SQUARE_HEIGHT = 100
+    SQUARE_WIDTH = 125
+    SQUARE_HEIGHT = 125
