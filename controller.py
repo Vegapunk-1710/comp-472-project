@@ -103,11 +103,12 @@ class Controller:
             state = State(current_state, Player.ATTACKER, 0)
             state.populate_potential_states(depth=3)
             rounds_left = self.game.MAX_TURNS - self.game.counter + 1
-            best_move = []
             if self.game.a_b:
-                best_move = self.attacker_ai.alpha_beta(state, 3, float("-inf"), float("inf"), True, 3, rounds_left)
+                value, chosen_state = self.attacker_ai.alpha_beta(state, 3, float("-inf"), float("inf"), True, 3, rounds_left)
             else:
-               best_move = self.attacker_ai.minimax(state, 3, True, 3, rounds_left)
+               value, chosen_state = self.attacker_ai.minimax(state, 3, True, 3, rounds_left)
+            if chosen_state:
+               chosen_state.print_state(chosen_state)
         except Exception as e:
             print(e)
         finally:
