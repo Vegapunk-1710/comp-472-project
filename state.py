@@ -278,9 +278,10 @@ class State:
                 other_unit = new_state[to_row][to_column]
                 out_heal = REPAIR_CHART[unit[1]][other_unit[1]]
                 if int(other_unit[2]) < 9 and out_heal > 0:
-                    other_unit = other_unit.replace(other_unit[2],str(int(other_unit[2]) + out_heal))
                     if int(other_unit[2]) + out_heal > 9:
                         other_unit = other_unit.replace(other_unit[2],"9")
+                    else:
+                        other_unit = other_unit.replace(other_unit[2],str(int(other_unit[2]) + out_heal))
                     desc = self.get_to_string_from_repair(unit, other_unit, [row, column], [to_row, to_column])
                     new_state[row][column] = unit
                     new_state[to_row][to_column] = other_unit
