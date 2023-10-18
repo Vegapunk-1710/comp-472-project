@@ -26,7 +26,7 @@ class AI:
         if max_player:
             max_eval = (float('-inf'), None)
 
-            for child in game_state.get_children():
+            for child in game_state.children:
                 current_eval, state = self.minimax(child, depth - 1, False, starting_depth, rounds_left - 1)
 
                 if current_eval > max_eval[0]:
@@ -37,7 +37,7 @@ class AI:
         else:
             min_eval = (float("inf"), None)
 
-            for child in game_state.get_children():
+            for child in game_state.children:
                 current_eval, state = self.minimax(child, depth - 1, True, starting_depth, rounds_left - 1)
 
                 if current_eval < min_eval[0]:
@@ -55,8 +55,8 @@ class AI:
         if max_player:
             max_eval = (float('-inf'), None)
 
-            for child in game_state.get_children():
-                current_eval, state = self.alpha_beta(child, depth - 1, alpha, beta, False, starting_depth)
+            for child in game_state.children:
+                current_eval, state = self.alpha_beta(child, depth - 1, alpha, beta, False, starting_depth, rounds_left)
 
                 if current_eval > max_eval[0]:
                     max_eval = (current_eval, child if depth == starting_depth - 1 else None)
@@ -70,8 +70,8 @@ class AI:
         else:
             min_eval = (float("inf"), None)
 
-            for child in game_state.get_children():
-                current_eval, state = self.alpha_beta(child, depth - 1, alpha, beta, True, starting_depth)
+            for child in game_state.children:
+                current_eval, state = self.alpha_beta(child, depth - 1, alpha, beta, True, starting_depth, rounds_left)
 
                 if current_eval < min_eval[0]:
                     # Starting depth - 1 because we want to get the state
@@ -149,8 +149,7 @@ class AI:
 
         for row in game_state.current_state:
             for pos in row:  # pos = position
-                if pos[0] == "d":
-
+                if pos != "" and pos[0] == "d":
                     # adding the stats to the defensive unit variables
                     match pos[1]:
                         case "A":
@@ -165,8 +164,7 @@ class AI:
                         case "F":
                             d_f += 10
 
-                elif pos[0] == "a":
-
+                elif pos != "" and pos[0] == "a":
                     # adding the stats to the unit variables
                     match pos[1]:
                         case "A":
@@ -241,17 +239,15 @@ class AI:
     # function checks_if_ai is dead
     # should probably also check if the number of rounds is done as well
     def is_game_over_from_state(self, game_state, rounds_left):
-
         ai_counter = 0
-
         if rounds_left <= 0:
             return True
         for row in game_state.current_state:
             for pos in row:  # pos = position
-                if pos[0] == "d" or pos[0] == "a":
-                    if pos[1] == "A":
-                        ai_counter += 1
-
+                if pos != "":
+                    if pos[0] == "d" or pos[0] == "a":
+                        if pos[1] == "A":
+                            ai_counter += 1
         if ai_counter < 2:
             return True
 
