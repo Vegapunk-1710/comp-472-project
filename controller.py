@@ -102,6 +102,7 @@ class Controller:
             current_state = self.game.map.get_state()
             state = State(current_state, Player.ATTACKER, 0)
             state.populate_potential_states(depth=3)
+            self.attacker_ai.e0_minimax(state, 3, True, 3)
         except Exception as e:
             print(e)
         finally:
