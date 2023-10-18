@@ -17,19 +17,46 @@ class AI:
     # implement ai algorithms here : minimax and alphabeta
     # given the tree of states with heuristic values calculated, choose the best move to do
 
-    def e0_minimax(self, game_state, depth, max_player, starting_depth):
+    def minimax(self, game_state, depth, max_player, starting_depth):
 
-        if depth == 0 or self.is_game_over_from_state(game_state): #checking if the game is over or reached max depth
-            return self.calculate_e0(game_state)
+        if depth == 0 or self.is_game_over_from_state(game_state):  # checking if the game is over or reached max depth
+
+            return self.calculate_heuristic(game_state), game_state
 
         if max_player:
             max_eval = (float('-inf'), None)
-            best_move = None
 
-           # for child in game_state.get_children():
+            for child in game_state.get_children():
+                current_eval, state = self.minimax(child, depth - 1, False, starting_depth)
 
+                if current_eval > max_eval[0]:
+                    max_eval = (current_eval, child if depth == starting_depth else None)
 
+            return max_eval
 
+        else:
+            min_eval = (float("inf"), None)
+
+            for child in game_state.get_children():
+                current_eval, state = self.minimax(child, depth - 1, True, starting_depth)
+
+                if current_eval < min_eval[0]:
+                    # Starting depth - 1 because we want to get the state
+                    # Right below the current state
+                    min_eval = (current_eval, child if depth == starting_depth - 1 else None)
+
+            return min_eval
+
+    def calculate_heuristic(self, game_state):
+
+        match self.heuristic_choice:
+            case "e0":
+                return self.calculate_e0(game_state)
+            case "e1":
+                return self.calculate_e1(game_state)
+
+            case "e2":
+                return self.calculate_e2(game_state)
 
 
     def calculate_e0(self, game_state):
@@ -84,9 +111,18 @@ class AI:
         else:
             heuristic_value = (d_a + d_p + d_v + d_f + d_t) - (a_a + a_p + a_v + a_f + a_t)
 
-            return heuristic_value
+        return heuristic_value
 
+    def calculate_e1(self, game_state):
+        return
+
+    def calculate_e2(self, game_state):
+        return
+
+    #function checks_if_ai is dead
+    #should probably also check if if the number of rounds is done as well
     def is_game_over_from_state(self, game_state):
+
 
         for row in game_state.current_state:
             for pos in row:  # pos = position
