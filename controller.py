@@ -107,8 +107,7 @@ class Controller:
                 value, chosen_state = self.attacker_ai.alpha_beta(state, 3, float("-inf"), float("inf"), True, 3, rounds_left)
             else:
                value, chosen_state = self.attacker_ai.minimax(state, 3, True, 3, rounds_left)
-            if chosen_state:
-               chosen_state.print_state(chosen_state)
+            print(chosen_state)
         except Exception as e:
             print(e)
         finally:
@@ -131,8 +130,7 @@ class Controller:
                 value, chosen_state = self.defender_ai.alpha_beta(state, 1, float("-inf"), float("inf"), True, 1, rounds_left)
             else:
                 value, chosen_state = self.defender_ai.minimax(state, 1, True, 1, rounds_left)
-            if chosen_state:
-                chosen_state.print_state(chosen_state)
+            print(chosen_state)
         # except Exception as e:
         #     print(e)
         # finally:

@@ -157,3 +157,4 @@ cython_debug/
 .idea/comp-472-project.iml
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/workspace.xml
+*.txt
