@@ -30,7 +30,7 @@ class AI:
                 current_eval, state = self.minimax(child, depth - 1, False, starting_depth, rounds_left - 1)
 
                 if current_eval > max_eval[0]:
-                    max_eval = (current_eval, child if depth == starting_depth - 1 else None)
+                    max_eval = (current_eval, child if depth == starting_depth else None)
 
             return max_eval
 
@@ -43,7 +43,7 @@ class AI:
                 if current_eval < min_eval[0]:
                     # Starting depth - 1 because we want to get the state
                     # Right below the current state
-                    min_eval = (current_eval, child if depth == starting_depth - 1 else None)
+                    min_eval = (current_eval, child if depth == starting_depth else None)
 
             return min_eval
 

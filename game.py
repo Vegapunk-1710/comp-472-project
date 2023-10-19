@@ -49,7 +49,7 @@ class Game:
                         self.controller.cancel()
 
             if not self.end and (self.turn == 0 and self.mode[0] != "H") or (self.turn == 1 and self.mode[2] != "H"):
-                    self.controller.handle_ai()
+                self.controller.handle_ai()
 
             self.display.fill(Settings.BLACK)
             self.map.render(self.display)
