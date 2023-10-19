@@ -128,3 +128,356 @@ Name of Heuristic : None
 *GAMEPLAY*
 Turn #1 : Attacker's Firewall move from D3 to C3.
 Turn #3 : Attacker's Program move from E2 to D2.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 0
+Max number of turns : 100
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Program move from C4 to B4.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Program move from C4 to B4.
+Turn #3 : Attacker's Firewall move from D3 to C3.
+Turn #5 : Attacker's Virus move from D4 to C4.
+Turn #7 : Attacker's Firewall move from C3 to C2.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 0
+Max number of turns : 100
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Program move from C4 to B4.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Program move from C4 to B4.
+Turn #3 : Attacker's Firewall move from D3 to C3.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 0
+Max number of turns : 100
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Firewall move from D3 to C3.
+Turn #3 : Attacker's Virus move from D4 to D3.
+Turn #5 : Attacker's Virus move from D3 to D2.
+Turn #7 : Attacker's Virus move from D2 to C2.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Firewall move from D3 to C3.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Firewall move from D3 to C3.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Program move from C4 to B4.
+Turn #3 : Attacker's Firewall move from D3 to C3.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Program move from C4 to B4.
+Turn #3 : Attacker's Firewall move from D3 to C3.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Firewall move from D3 to C3.
+Turn #3 : Attacker's Program move from C4 to B4.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 0
+Max number of turns : 100
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Program move from C4 to B4.
+Turn #3 : Attacker's Firewall move from D3 to C3.
+Turn #5 : Attacker's Program move from E2 to D2.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 0
+Max number of turns : 100
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Program move from C4 to B4.
+Turn #3 : Attacker's Firewall move from D3 to C3.
+Turn #5 : Attacker's Virus move from D4 to D3.
+Turn #7 : Attacker's Virus move from D3 to D2.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 0
+Max number of turns : 100
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Program move from C4 to B4.
+Turn #3 : Attacker's Firewall move from D3 to C3.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 0
+Max number of turns : 100
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Program move from C4 to B4.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Program move from C4 to B4.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Firewall move from D3 to C3.
+===========================================================================================
+*PARAMETERS*
+Timeout in seconds : 5
+Max number of turns : 50
+AI Player  : Defender, Alpha-Beta  : False
+Play Mode  : H-A
+Name of Heuristic : None
+===========================================================================================
+*BOARD*
+['dA9', 'dT9', 'dF9', '', '']
+['dT9', 'dP9', '', '', '']
+['dF9', '', '', '', 'aP9']
+['', '', '', 'aF9', 'aV9']
+['', '', 'aP9', 'aV9', 'aA9']
+===========================================================================================
+*GAMEPLAY*
+Turn #1 : Attacker's Firewall move from D3 to C3.
