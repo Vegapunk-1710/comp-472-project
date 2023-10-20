@@ -29,6 +29,7 @@ class Game:
         self.turn = 0
         self.end = False
         self.end_message = ""
+        self.ai_move_str = ""
         self.warning = False
 
     def run(self):

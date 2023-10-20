@@ -23,7 +23,7 @@ class Controller:
             self.attacker_ai = AI(self.game, Player.ATTACKER, self.game.a_b, "e0")
         if mode[2] != "H":
             # example of an AI for the defender
-            self.defender_ai = AI(self.game, Player.DEFENDER, self.game.a_b, "e1")
+            self.defender_ai = AI(self.game, Player.DEFENDER, self.game.a_b, "e0")
 
     def handle_click(self):
         pos = pygame.mouse.get_pos()
@@ -110,7 +110,8 @@ class Controller:
                                                                   rounds_left)
             else:
                 value, chosen_state = self.attacker_ai.minimax(state, 3, True, 3, rounds_left)
-            print(chosen_state)
+            self.game.map.set_state(chosen_state)
+            self.game.ai_move_str = chosen_state.to_string
         except Exception as e:
             print(e)
         finally:
@@ -124,20 +125,21 @@ class Controller:
         # Calculate the heuristic value for every state
         # Choose an AI algorithm and use it
         # Make the unit do the action
-        # try:
-        current_state = self.game.map.get_state()
-        state = State(current_state, Player.DEFENDER, 0)
-        state.populate_potential_states(depth=3)
-        rounds_left = self.game.MAX_TURNS - self.game.counter + 1
-        if self.game.a_b:
-            value, chosen_state = self.defender_ai.alpha_beta(state, 1, float("-inf"), float("inf"), True, 1,
-                                                              rounds_left)
-        else:
-            value, chosen_state = self.defender_ai.minimax(state, 1, True, 1, rounds_left)
-        print(chosen_state)
-        # except Exception as e:
-        #     print(e)
-        # finally:
-        self.cancel()
-        self.game.counter += 1
-        self.game.turn = self.game.counter % 2
+        try:
+            current_state = self.game.map.get_state()
+            state = State(current_state, Player.DEFENDER, 0)
+            state.populate_potential_states(depth=3)
+            rounds_left = self.game.MAX_TURNS - self.game.counter + 1
+            if self.game.a_b:
+                value, chosen_state = self.defender_ai.alpha_beta(state, 1, float("-inf"), float("inf"), True, 1,
+                                                                  rounds_left)
+            else:
+                value, chosen_state = self.defender_ai.minimax(state, 1, True, 1, rounds_left)
+            self.game.map.set_state(chosen_state)
+            self.game.ai_move_str = chosen_state.to_string
+        except Exception as e:
+            print(e)
+        finally:
+            self.cancel()
+            self.game.counter += 1
+            self.game.turn = self.game.counter % 2

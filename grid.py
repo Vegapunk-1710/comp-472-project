@@ -65,6 +65,8 @@ class Grid:
     def get_state(self):
         return self.encode_grid_to_strings(self.grid)
 
+    def set_state(self, state):
+        self.grid = self.decode_grid_from_strings(state.current_state)
 
     def check_adjacents(self, row, column):
         adj = {}
@@ -168,6 +170,9 @@ class Grid:
         if self.game.warning:
             warning = self.font.render("This is an illegal move! Click on highlighted squares only OR Cancel by pressing C.", True, (255, 255, 0))
             display.blit(warning, (680, 360))
+        if self.game.ai_move_str != "":
+            ai_move = self.font.render(self.game.ai_move_str, True, (255, 255, 255))
+            display.blit(ai_move, (680, 330))
         counter = self.font.render("Round : " + str(self.game.counter+1), True, (255, 255, 255))
         display.blit(counter, (680, 10))
         turn = self.font.render("Turn : ", True, (255, 255, 255))
