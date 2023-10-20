@@ -101,15 +101,16 @@ class Controller:
         # Choose an AI algorithm and use it
         # Make the unit do the action
         try:
+            depth = 3
             current_state = self.game.map.get_state()
             state = State(current_state, Player.ATTACKER, 0)
-            state.populate_potential_states(depth=3)
+            state.populate_potential_states(depth=depth)
             rounds_left = self.game.MAX_TURNS - self.game.counter + 1
             if self.game.a_b:
-                value, chosen_state = self.attacker_ai.alpha_beta(state, 3, float("-inf"), float("inf"), True, 3,
+                value, chosen_state = self.attacker_ai.alpha_beta(state, depth, float("-inf"), float("inf"), True, depth,
                                                                   rounds_left)
             else:
-                value, chosen_state = self.attacker_ai.minimax(state, 3, True, 3, rounds_left)
+                value, chosen_state = self.attacker_ai.minimax(state, depth, True, depth, rounds_left)
             self.game.map.set_state(chosen_state)
             self.game.ai_move_str = chosen_state.to_string
         except Exception as e:
@@ -126,15 +127,16 @@ class Controller:
         # Choose an AI algorithm and use it
         # Make the unit do the action
         try:
+            depth = 3
             current_state = self.game.map.get_state()
             state = State(current_state, Player.DEFENDER, 0)
-            state.populate_potential_states(depth=3)
+            state.populate_potential_states(depth=depth)
             rounds_left = self.game.MAX_TURNS - self.game.counter + 1
             if self.game.a_b:
-                value, chosen_state = self.defender_ai.alpha_beta(state, 3, float("-inf"), float("inf"), True, 3,
+                value, chosen_state = self.defender_ai.alpha_beta(state, depth, float("-inf"), float("inf"), True, depth,
                                                                   rounds_left)
             else:
-                value, chosen_state = self.defender_ai.minimax(state, 3, True, 3, rounds_left)
+                value, chosen_state = self.defender_ai.minimax(state, depth, True, depth, rounds_left)
             self.game.map.set_state(chosen_state)
             self.game.ai_move_str = chosen_state.to_string
         except Exception as e:
