@@ -19,10 +19,10 @@ class Controller:
         self.destruct_unit = False
         self.mode = mode
         if mode[0] != "H":
-            #example of an AI for the attacker
+            # example of an AI for the attacker
             self.attacker_ai = AI(self.game, Player.ATTACKER, self.game.a_b, "e0")
         if mode[2] != "H":
-            #example of an AI for the defender
+            # example of an AI for the defender
             self.defender_ai = AI(self.game, Player.DEFENDER, self.game.a_b, "e1")
 
     def handle_click(self):
@@ -34,12 +34,13 @@ class Controller:
         else:
             self.set_unit(row, column)
 
-
     def get_unit(self, from_row, from_column):
         try:
             if from_row <= 4 and from_column <= 4 and self.game.map.grid[from_row][from_column] != None:
-                if (self.game.turn == 0 and self.game.map.grid[from_row][from_column].belongs_to.value == "Attacker") or (
-                        self.game.turn == 1 and self.game.map.grid[from_row][from_column].belongs_to.value == "Defender"):
+                if (self.game.turn == 0 and self.game.map.grid[from_row][
+                    from_column].belongs_to.value == "Attacker") or (
+                        self.game.turn == 1 and self.game.map.grid[from_row][
+                    from_column].belongs_to.value == "Defender"):
                     self.selected_unit, adjacents = self.game.map.check_adjacents(from_row, from_column)
                     if self.destruct_unit:
                         diagonals = self.game.map.check_diagonals(from_row, from_column)
@@ -53,15 +54,14 @@ class Controller:
         except Exception as e:
             print(e)
 
-
     def set_unit(self, to_row, to_column):
         try:
             if self.destruct_unit and (
                     self.highlighted_moves == [] and self.highlighted_attacks == [] and self.highlighted_repairs == []):
-                    self.selected_unit.self_destruct()
-                    self.cancel()
-                    self.game.counter += 1
-                    self.game.turn = self.game.counter % 2
+                self.selected_unit.self_destruct()
+                self.cancel()
+                self.game.counter += 1
+                self.game.turn = self.game.counter % 2
             else:
                 did_move = self.selected_unit.move(to_row, to_column)
                 did_attack = self.selected_unit.attack(to_row, to_column)
@@ -71,11 +71,13 @@ class Controller:
                     self.game.counter += 1
                     self.game.turn = self.game.counter % 2
                 else:
-                    write_illegal_move(self.game.counter, self.selected_unit.belongs_to.value, self.selected_unit.type.value, self.selected_unit.encode_loc(self.selected_unit.location), self.selected_unit.encode_loc([to_row,to_column]))
+                    write_illegal_move(self.game.counter, self.selected_unit.belongs_to.value,
+                                       self.selected_unit.type.value,
+                                       self.selected_unit.encode_loc(self.selected_unit.location),
+                                       self.selected_unit.encode_loc([to_row, to_column]))
                     self.game.warning = True
         except Exception as e:
             print(e)
-
 
     def cancel(self):
         self.is_selected = False
@@ -94,19 +96,20 @@ class Controller:
             self.defender_ai_play()
 
     def attacker_ai_play(self):
-        #Get the current and potential states : DONE
-        #Calculate the heuristic value for every state
-        #Choose an AI algorithm and use it
-        #Make the unit do the action
+        # Get the current and potential states : DONE
+        # Calculate the heuristic value for every state
+        # Choose an AI algorithm and use it
+        # Make the unit do the action
         try:
             current_state = self.game.map.get_state()
             state = State(current_state, Player.ATTACKER, 0)
             state.populate_potential_states(depth=3)
             rounds_left = self.game.MAX_TURNS - self.game.counter + 1
             if self.game.a_b:
-                value, chosen_state = self.attacker_ai.alpha_beta(state, 3, float("-inf"), float("inf"), True, 3, rounds_left)
+                value, chosen_state = self.attacker_ai.alpha_beta(state, 3, float("-inf"), float("inf"), True, 3,
+                                                                  rounds_left)
             else:
-               value, chosen_state = self.attacker_ai.minimax(state, 3, True, 3, rounds_left)
+                value, chosen_state = self.attacker_ai.minimax(state, 3, True, 3, rounds_left)
             print(chosen_state)
         except Exception as e:
             print(e)
@@ -117,23 +120,24 @@ class Controller:
         pass
 
     def defender_ai_play(self):
-        #Get the current and potential states : DONE
-        #Calculate the heuristic value for every state
-        #Choose an AI algorithm and use it
-        #Make the unit do the action
+        # Get the current and potential states : DONE
+        # Calculate the heuristic value for every state
+        # Choose an AI algorithm and use it
+        # Make the unit do the action
         # try:
-            current_state = self.game.map.get_state()
-            state = State(current_state, Player.DEFENDER, 0)
-            state.populate_potential_states(depth=3)
-            rounds_left = self.game.MAX_TURNS - self.game.counter + 1
-            if self.game.a_b:
-                value, chosen_state = self.defender_ai.alpha_beta(state, 1, float("-inf"), float("inf"), True, 1, rounds_left)
-            else:
-                value, chosen_state = self.defender_ai.minimax(state, 1, True, 1, rounds_left)
-            print(chosen_state)
+        current_state = self.game.map.get_state()
+        state = State(current_state, Player.DEFENDER, 0)
+        state.populate_potential_states(depth=3)
+        rounds_left = self.game.MAX_TURNS - self.game.counter + 1
+        if self.game.a_b:
+            value, chosen_state = self.defender_ai.alpha_beta(state, 1, float("-inf"), float("inf"), True, 1,
+                                                              rounds_left)
+        else:
+            value, chosen_state = self.defender_ai.minimax(state, 1, True, 1, rounds_left)
+        print(chosen_state)
         # except Exception as e:
         #     print(e)
         # finally:
-            self.cancel()
-            self.game.counter += 1
-            self.game.turn = self.game.counter % 2
+        self.cancel()
+        self.game.counter += 1
+        self.game.turn = self.game.counter % 2
