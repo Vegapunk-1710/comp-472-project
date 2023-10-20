@@ -29,9 +29,13 @@ class AI:
 
             for child in game_state.children:
                 current_eval, state = self.minimax(child, depth - 1, False, starting_depth, rounds_left - 1)
-
+                #print("Current Eval: ", current_eval)
                 if current_eval > max_eval[0]:
+
+                    #print("CURRENT MAX: ", max_eval[0])
                     max_eval = (current_eval, child if depth == starting_depth else None)
+                    #print("DEPTH LEVEL: ", depth)
+                    #print("new Max Eval: ", max_eval[0])
 
             return max_eval
 
@@ -40,11 +44,14 @@ class AI:
 
             for child in game_state.children:
                 current_eval, state = self.minimax(child, depth - 1, True, starting_depth, rounds_left - 1)
+               # print("Current Eval: ", current_eval)
 
                 if current_eval < min_eval[0]:
-                    # Starting depth - 1 because we want to get the state
-                    # Right below the current state
+                    #print("CURRENT MIN: ", min_eval[0])
+
                     min_eval = (current_eval, child if depth == starting_depth else None)
+                    #print("DEPTH LEVEL: ", depth)
+                    #print("New Min Eval: ", min_eval[0])
 
             return min_eval
 
@@ -153,38 +160,41 @@ class AI:
         for row in game_state.current_state:
             for pos in row:  # pos = position
                 if pos != "" and pos[0] == "d":
-                    # adding the stats to the defensive unit variables
+                    health_percentage = float(pos[2]) / 9
+
+                    # adjusting the stats by the health percentage for defensive unit variables
                     match pos[1]:
                         case "A":
-                            d_a += 100
+                            d_a += health_percentage * 10000
 
                         case "P":
-                            d_p += 20
+                            d_p += health_percentage * 30
 
                         case "T":
-                            d_t += 15
+                            d_t += health_percentage * 20
 
                         case "F":
-                            d_f += 10
+                            d_f += health_percentage * 10
 
                 elif pos != "" and pos[0] == "a":
-                    # adding the stats to the unit variables
+                    health_percentage = float(pos[2]) / 9
+
+                    # adjusting the stats by the health percentage for offensive unit variables
                     match pos[1]:
                         case "A":
-                            a_a += 100
+                            a_a += health_percentage * 10000
 
                         case "P":
-                            a_p += 20
+                            a_p += health_percentage * 20
 
                         case "V":
-                            a_v += 30
+                            a_v += health_percentage * 50
 
                         case "F":
-                            a_f += 10
+                            a_f += health_percentage * 10
 
         if self.belongs_to == Player.ATTACKER:
             heuristic_value = (a_a + a_p + a_v + a_f + a_t) - (d_a + d_p + d_v + d_f + d_t)
-
         else:
             heuristic_value = (d_a + d_p + d_v + d_f + d_t) - (a_a + a_p + a_v + a_f + a_t)
 
@@ -200,37 +210,39 @@ class AI:
         for row in game_state.current_state:
             for pos in row:  # pos = position
                 if len(pos) != 0:
+                    health_percentage = float(pos[2]) / 9.0  # Assuming 9 is the max health value
+
                     if pos[0] == "d":
 
                         # adding the stats to the defensive unit variables
                         match pos[1]:
                             case "A":
-                                d_a += 100
+                                d_a += 10000 * health_percentage
 
                             case "P":
-                                d_p += 15
+                                d_p += 15 * health_percentage
 
                             case "T":
-                                d_t += 30
+                                d_t += 50 * health_percentage
 
                             case "F":
-                                d_f += 20
+                                d_f += 30 * health_percentage
 
                     elif pos[0] == "a":
 
                         # adding the stats to the unit variables
                         match pos[1]:
                             case "A":
-                                a_a += 100
+                                a_a += 10000 * health_percentage
 
                             case "P":
-                                a_p += 20
+                                a_p += 30 * health_percentage
 
                             case "V":
-                                a_v += 10
+                                a_v += 10 * health_percentage
 
                             case "F":
-                                a_f += 30
+                                a_f += 50 * health_percentage
 
         if self.belongs_to == Player.ATTACKER:
             heuristic_value = (a_a + a_p + a_v + a_f + a_t) - (d_a + d_p + d_v + d_f + d_t)

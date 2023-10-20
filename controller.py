@@ -20,10 +20,10 @@ class Controller:
         self.mode = mode
         if mode[0] != "H":
             # example of an AI for the attacker
-            self.attacker_ai = AI(self.game, Player.ATTACKER, self.game.a_b, "e0")
+            self.attacker_ai = AI(self.game, Player.ATTACKER, self.game.a_b, "e2")
         if mode[2] != "H":
             # example of an AI for the defender
-            self.defender_ai = AI(self.game, Player.DEFENDER, self.game.a_b, "e0")
+            self.defender_ai = AI(self.game, Player.DEFENDER, self.game.a_b, "e2")
 
     def handle_click(self):
         pos = pygame.mouse.get_pos()
@@ -101,7 +101,7 @@ class Controller:
         # Choose an AI algorithm and use it
         # Make the unit do the action
         try:
-            depth = 3
+            depth = 4
             current_state = self.game.map.get_state()
             state = State(current_state, Player.ATTACKER, 0)
             state.populate_potential_states(depth=depth)
@@ -127,7 +127,7 @@ class Controller:
         # Choose an AI algorithm and use it
         # Make the unit do the action
         try:
-            depth = 3
+            depth = 5
             current_state = self.game.map.get_state()
             state = State(current_state, Player.DEFENDER, 0)
             state.populate_potential_states(depth=depth)
@@ -137,6 +137,8 @@ class Controller:
                                                                   rounds_left)
             else:
                 value, chosen_state = self.defender_ai.minimax(state, depth, True, depth, rounds_left)
+                print("TAKEN VALUE = ", value)
+                print("-------------------------------------------------")
             self.game.map.set_state(chosen_state)
             self.game.ai_move_str = chosen_state.to_string
         except Exception as e:
