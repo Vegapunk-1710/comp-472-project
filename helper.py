@@ -22,3 +22,34 @@ def decode_string_from_init_map_coordinate(str):
         type = Type.FIREWALL
 
     return belongs_to, type, health
+
+def cumulative_to_strings(cumu_list):
+    s1 = ""
+    s2 = ""
+    counter = 1
+    total = 0
+    for c in cumu_list:
+        s1+=" " + str(counter) + "=" + str(c)
+        total += c
+        counter+=1
+
+    counter = 1
+    for c in cumu_list:
+        s2+=" " + str(counter) + "=" + str(round((c/total)*100,2)) + "%"
+        counter += 1
+    return (s1,s2,get_average_branching_factor(cumu_list),str(total))
+
+def get_average_branching_factor(cumu_list):
+    total = 0
+    counter = 0
+    for i in range(len(cumu_list)):
+        for j in range(len(cumu_list)):
+            if i == j - 1:
+                total += (cumu_list[j]/cumu_list[i])
+                counter += 1
+
+    return str(round( (total/counter) , 1) )
+
+
+
+

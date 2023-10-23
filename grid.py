@@ -18,7 +18,7 @@ class Grid:
             ["","","aP9","aV9","aA9"],
         ]
 
-        write_init(self.grid, a_b=self.game.a_b, timeout=self.game.timeout, max_turns=self.game.MAX_TURNS, play_mode=self.game.mode)
+        write_init(self.grid, a_b=self.game.a_b, timeout=self.game.timeout, max_turns=self.game.MAX_TURNS, play_mode=self.game.mode, e=self.game.heuristic)
 
         self.grid = self.decode_grid_from_strings(self.grid)
 

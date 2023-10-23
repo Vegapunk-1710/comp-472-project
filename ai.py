@@ -9,13 +9,7 @@ class AI:
         self.algorithm = algorithm  # if false , alpha_beta else, minimax
         self.heuristic_choice = heuristic_choice  # heurisitc function choice (could also be a string : "e0")
         self.current_state: State = None
-        # starting state (can be set later)
 
-    # implement heuristics functions here: e0, e1, e2
-    # every function should go through every state in the "tree" and give it a heuristic value
-
-    # implement ai algorithms here : minimax and alphabeta
-    # given the tree of states with heuristic values calculated, choose the best move to do
 
     def minimax(self, game_state, depth, max_player, starting_depth, rounds_left):
 
@@ -29,13 +23,9 @@ class AI:
 
             for child in game_state.children:
                 current_eval, state = self.minimax(child, depth - 1, False, starting_depth, rounds_left - 1)
-                #print("Current Eval: ", current_eval)
                 if current_eval > max_eval[0]:
 
-                    #print("CURRENT MAX: ", max_eval[0])
                     max_eval = (current_eval, child if depth == starting_depth else None)
-                    #print("DEPTH LEVEL: ", depth)
-                    #print("new Max Eval: ", max_eval[0])
 
             return max_eval
 
@@ -44,14 +34,10 @@ class AI:
 
             for child in game_state.children:
                 current_eval, state = self.minimax(child, depth - 1, True, starting_depth, rounds_left - 1)
-               # print("Current Eval: ", current_eval)
 
                 if current_eval < min_eval[0]:
-                    #print("CURRENT MIN: ", min_eval[0])
 
                     min_eval = (current_eval, child if depth == starting_depth else None)
-                    #print("DEPTH LEVEL: ", depth)
-                    #print("New Min Eval: ", min_eval[0])
 
             return min_eval
 

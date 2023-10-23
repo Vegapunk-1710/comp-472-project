@@ -87,11 +87,24 @@ class State:
         self.children: list[State] = []                  # Potential states or plays
         self.heuristic: int = 0                          # Heuristic value determined with a heuristic function
         self.to_string : str = to_string                 # Description of what happened in order to create this state
+        self.branches : list[int] = []
+
+    def get_branching_factors(self, size):
+        self.get_branches(self.children, len(self.children), [0]*size, 0)
+
+    def get_branches(self, children, branching_factor, branches, depth):
+        branches[depth] = branching_factor
+        if children[0].children != []:
+            self.get_branches(children[0].children, len(children[0].children)*branching_factor,branches, depth+1)
+        else:
+            self.branches = branches
+            return
 
     def populate_potential_states(self, depth=3):
         belongs_to_char = self.belongs_to.value[0].lower()
         self.children = self.get_potential_states(self.current_state, belongs_to_char)
         self.populate_potential_children_states(self.children, depth - 1)
+        self.get_branching_factors(depth)
 
 
     def populate_potential_children_states(self, children, depth):

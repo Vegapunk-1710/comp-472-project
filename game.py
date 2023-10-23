@@ -20,6 +20,7 @@ class Game:
         self.a_b = a_b
         self.timeout = timeout
         self.MAX_TURNS = max_turns
+        self.heuristic = "e2"
 
         self.controller = Controller(self, self.mode)
 
@@ -31,6 +32,9 @@ class Game:
         self.end_message = ""
         self.ai_move_str = ""
         self.warning = False
+
+        self.cumulative_attacker_ai_branches = []
+        self.cumulative_defender_ai_branches = []
 
     def run(self):
         while not self.is_done:

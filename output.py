@@ -22,6 +22,18 @@ def write_grid(grid):
     for row in grid:
             write(str(row))
 
+def write_ai(turn, desc):
+    s = "Turn #" + str(turn+1) + " : " + desc
+    write(s)
+
+def write_cumu(strs):
+    s = "   Cumulative evals: " + strs[3] + ", Cumulative evals by depth: " + strs[0] + ", Cumulative % evals by depth: " + strs[1] + ", Average branching factor: " + strs[2] + "."
+    write(s)
+
+def write_time_heuristic(time, h):
+    s = "   Time for this action: " + time + " sec, heuristic score: " + h + "."
+    write(s)
+
 def write_move(turn, player, type, old_loc, new_loc):
     s = "Turn #" + str(turn+1) + " : " + player + "'s " + type + " move from " + old_loc + " to " + new_loc + "."
     write(s)

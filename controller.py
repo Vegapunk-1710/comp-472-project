@@ -1,7 +1,11 @@
+import time
+from itertools import zip_longest
+
 import pygame
 
 from ai import AI
-from output import write_illegal_move
+from helper import cumulative_to_strings
+from output import write_illegal_move, write_ai, write_cumu, write_time_heuristic
 from settings import Settings
 from state import State
 from unit import Player
@@ -20,10 +24,10 @@ class Controller:
         self.mode = mode
         if mode[0] != "H":
             # example of an AI for the attacker
-            self.attacker_ai = AI(self.game, Player.ATTACKER, self.game.a_b, "e2")
+            self.attacker_ai = AI(self.game, Player.ATTACKER, self.game.a_b, self.game.heuristic)
         if mode[2] != "H":
             # example of an AI for the defender
-            self.defender_ai = AI(self.game, Player.DEFENDER, self.game.a_b, "e2")
+            self.defender_ai = AI(self.game, Player.DEFENDER, self.game.a_b, self.game.heuristic)
 
     def handle_click(self):
         pos = pygame.mouse.get_pos()
@@ -96,23 +100,30 @@ class Controller:
             self.defender_ai_play()
 
     def attacker_ai_play(self):
-        # Get the current and potential states : DONE
-        # Calculate the heuristic value for every state
-        # Choose an AI algorithm and use it
-        # Make the unit do the action
         try:
-            depth = 4
+            start_time = time.time()
+            depth = 3
             current_state = self.game.map.get_state()
             state = State(current_state, Player.ATTACKER, 0)
             state.populate_potential_states(depth=depth)
+            self.game.cumulative_attacker_ai_branches = [a + b for a, b in
+                                                         zip_longest(self.game.cumulative_attacker_ai_branches,
+                                                                     state.branches, fillvalue=0)]
             rounds_left = self.game.MAX_TURNS - self.game.counter + 1
             if self.game.a_b:
                 value, chosen_state = self.attacker_ai.alpha_beta(state, depth, float("-inf"), float("inf"), True, depth,
                                                                   rounds_left)
             else:
                 value, chosen_state = self.attacker_ai.minimax(state, depth, True, depth, rounds_left)
-            self.game.map.set_state(chosen_state)
-            self.game.ai_move_str = chosen_state.to_string
+            timer = time.time() - start_time
+            if (timer >= self.game.timeout):
+                pass
+            else:
+                self.game.map.set_state(chosen_state)
+                self.game.ai_move_str = chosen_state.to_string
+                write_ai(self.game.counter, chosen_state.to_string)
+                write_cumu(cumulative_to_strings(self.game.cumulative_attacker_ai_branches))
+                write_time_heuristic(str(round(timer,2)),str(value))
         except Exception as e:
             print(e)
         finally:
@@ -122,25 +133,29 @@ class Controller:
         pass
 
     def defender_ai_play(self):
-        # Get the current and potential states : DONE
-        # Calculate the heuristic value for every state
-        # Choose an AI algorithm and use it
-        # Make the unit do the action
         try:
-            depth = 5
+            start_time = time.time()
+            depth = 3
             current_state = self.game.map.get_state()
             state = State(current_state, Player.DEFENDER, 0)
             state.populate_potential_states(depth=depth)
+            self.game.cumulative_defender_ai_branches = [a + b for a, b in zip_longest(self.game.cumulative_defender_ai_branches, state.branches, fillvalue=0)]
             rounds_left = self.game.MAX_TURNS - self.game.counter + 1
             if self.game.a_b:
                 value, chosen_state = self.defender_ai.alpha_beta(state, depth, float("-inf"), float("inf"), True, depth,
                                                                   rounds_left)
             else:
                 value, chosen_state = self.defender_ai.minimax(state, depth, True, depth, rounds_left)
-                print("TAKEN VALUE = ", value)
-                print("-------------------------------------------------")
-            self.game.map.set_state(chosen_state)
-            self.game.ai_move_str = chosen_state.to_string
+            timer = time.time() - start_time
+            if (timer >= self.game.timeout):
+                pass
+            else:
+                print(time.time() - start_time)
+                self.game.map.set_state(chosen_state)
+                self.game.ai_move_str = chosen_state.to_string
+                write_ai(self.game.counter, chosen_state.to_string)
+                write_cumu(cumulative_to_strings(self.game.cumulative_defender_ai_branches))
+                write_time_heuristic(str(round(timer,2)), str(value))
         except Exception as e:
             print(e)
         finally:
