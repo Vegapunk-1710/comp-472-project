@@ -4,12 +4,12 @@ def change_filename(filename):
     global FIlENAME
     FIlENAME = filename
 
-def write_init(grid, timeout=0, max_turns=100, ai="None", a_b=False, play_mode="H-H", e="None"):
+def write_init(grid, timeout=0, max_turns=100, ai="", a_b=False, play_mode="H-H", e="None"):
     write('===========================================================================================')
     write("*PARAMETERS*")
     write("Timeout in seconds : " + str(timeout))
     write("Max number of turns : " + str(max_turns))
-    write("AI Player  : " + ("Attacker" if play_mode[0] == "A" else "Defender" if play_mode[2] == "A" else "None" if play_mode[0] != "A" and play_mode[2] != "A" else "Attacker & Defender") + ", Alpha-Beta  : " + str(a_b))
+    write("AI Player  : " + str(ai) + ", Alpha-Beta  : " + str(a_b))
     write("Play Mode  : " + str(play_mode))
     write("Name of Heuristic : " + str(e))
     write('===========================================================================================')
@@ -30,6 +30,9 @@ def write_cumu(strs):
     s = "   Cumulative evals: " + strs[3] + ", Cumulative evals by depth: " + strs[0] + ", Cumulative % evals by depth: " + strs[1] + ", Average branching factor: " + strs[2] + "."
     write(s)
 
+def write_timeout(turn, player, time):
+    s = "Turn #" + str(turn + 1) + " : " + player + " ran out of time ! They took " + time + " sec."
+    write(s)
 def write_time_heuristic(time, h):
     s = "   Time for this action: " + time + " sec, heuristic score: " + h + "."
     write(s)

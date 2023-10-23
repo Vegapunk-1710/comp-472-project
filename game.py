@@ -15,8 +15,9 @@ class Game:
         self.clock = pygame.time.Clock()
         self.is_done = False
         change_filename(filename)
-        #COULD MESS UP TESTING, MAKE IT "H-H" for Attacker:Human vs Defender:Human
+
         self.mode = "H-A"
+
         self.a_b = a_b
         self.timeout = timeout
         self.MAX_TURNS = max_turns

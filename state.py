@@ -126,8 +126,6 @@ class State:
         states.extend(attack_states)
         states.extend(repair_states)
         states.extend(destruct_states)
-        # for state in states:
-        #     self.print_state(state)
         return states
 
     def get_potential_moves(self, current_state, belongs_to_char):

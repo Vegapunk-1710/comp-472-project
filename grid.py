@@ -1,6 +1,6 @@
 import pygame
 
-from helper import decode_string_from_init_map_coordinate
+from helper import decode_string_from_init_map_coordinate, get_ai_player_to_string
 from output import write_init
 from settings import Settings
 from unit import Player, Type, Unit
@@ -18,7 +18,7 @@ class Grid:
             ["","","aP9","aV9","aA9"],
         ]
 
-        write_init(self.grid, a_b=self.game.a_b, timeout=self.game.timeout, max_turns=self.game.MAX_TURNS, play_mode=self.game.mode, e=self.game.heuristic)
+        write_init(self.grid, a_b=self.game.a_b, timeout=self.game.timeout, max_turns=self.game.MAX_TURNS, play_mode=self.game.mode, e=self.game.heuristic, ai=get_ai_player_to_string(self.game.mode))
 
         self.grid = self.decode_grid_from_strings(self.grid)
 

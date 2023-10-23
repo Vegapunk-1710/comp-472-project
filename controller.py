@@ -5,7 +5,7 @@ import pygame
 
 from ai import AI
 from helper import cumulative_to_strings
-from output import write_illegal_move, write_ai, write_cumu, write_time_heuristic
+from output import write_illegal_move, write_ai, write_cumu, write_time_heuristic, write_timeout
 from settings import Settings
 from state import State
 from unit import Player
@@ -23,10 +23,8 @@ class Controller:
         self.destruct_unit = False
         self.mode = mode
         if mode[0] != "H":
-            # example of an AI for the attacker
             self.attacker_ai = AI(self.game, Player.ATTACKER, self.game.a_b, self.game.heuristic)
         if mode[2] != "H":
-            # example of an AI for the defender
             self.defender_ai = AI(self.game, Player.DEFENDER, self.game.a_b, self.game.heuristic)
 
     def handle_click(self):
@@ -102,7 +100,7 @@ class Controller:
     def attacker_ai_play(self):
         try:
             start_time = time.time()
-            depth = 3
+            depth = 4
             current_state = self.game.map.get_state()
             state = State(current_state, Player.ATTACKER, 0)
             state.populate_potential_states(depth=depth)
@@ -117,7 +115,7 @@ class Controller:
                 value, chosen_state = self.attacker_ai.minimax(state, depth, True, depth, rounds_left)
             timer = time.time() - start_time
             if (timer >= self.game.timeout):
-                pass
+                write_timeout(self.game.counter, "Attacker", str(round(timer,2)))
             else:
                 self.game.map.set_state(chosen_state)
                 self.game.ai_move_str = chosen_state.to_string
@@ -135,7 +133,7 @@ class Controller:
     def defender_ai_play(self):
         try:
             start_time = time.time()
-            depth = 3
+            depth = 4
             current_state = self.game.map.get_state()
             state = State(current_state, Player.DEFENDER, 0)
             state.populate_potential_states(depth=depth)
@@ -148,9 +146,8 @@ class Controller:
                 value, chosen_state = self.defender_ai.minimax(state, depth, True, depth, rounds_left)
             timer = time.time() - start_time
             if (timer >= self.game.timeout):
-                pass
+                write_timeout(self.game.counter, "Defender", str(round(timer,2)))
             else:
-                print(time.time() - start_time)
                 self.game.map.set_state(chosen_state)
                 self.game.ai_move_str = chosen_state.to_string
                 write_ai(self.game.counter, chosen_state.to_string)

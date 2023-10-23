@@ -50,6 +50,15 @@ def get_average_branching_factor(cumu_list):
 
     return str(round( (total/counter) , 1) )
 
+def get_ai_player_to_string(string):
+    p1 = string[0]
+    p2 = string[2]
+    if p1 == "A" and p2 == "A":
+        return "Attacker & Defender"
+    if p1 == "A":
+        return "Attacker"
+    if p2 == "A":
+        return "Defender"
 
 
 
